@@ -4,3 +4,15 @@
   padding: 2rem;
   text-align: center;
 }
+
+.team {
+  background-color: aquamarine;
+}
+
+.picker {
+  background-color: blueviolet;
+}
+
+.avatar {
+  width: 12vw;
+}
