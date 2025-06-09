@@ -1,4 +1,4 @@
-export function Character({ character }) {
+export function Character({ size, character }) {
 
   if (!character) {
     return <div className="avatar">-</div>
@@ -7,7 +7,7 @@ export function Character({ character }) {
       <img
         src={`${import.meta.env.BASE_URL}/images/${character.identity}.png`}
         alt={character.identity}
-        className="avatar" />
+        className={size} />
     </div>
   }
 }

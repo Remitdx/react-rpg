@@ -9,6 +9,9 @@ export function DetailedCharacter({ pickCharacter, character }) {
       className="avatar pick" />
     <div>
       <p><strong>{character.identity}</strong></p>
+      { character.type.map( type =>
+        <img className="item-sm" src={`${import.meta.env.BASE_URL}/images/${type}.png`} key={type} alt={type} />
+      )}
       <p>health: {character.health}</p>
       <p>strength: {character.strength}</p>
       <p>agility: {character.agility}</p>

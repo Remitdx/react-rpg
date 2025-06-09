@@ -1,9 +1,9 @@
-import { Button } from '../components/Button'
+import { Header } from '../components/Header'
 
-export function Shop({ onMap }) {
+export function Shop({ team, onWhere, gold }) {
   return <div>
-    <h1>Shop</h1>
-    <Button value="Map" onClick={onMap}/>
+    <Header team={team} gold={gold} onWhere={onWhere} buttonValue="Map" />
+    <div className="wrapper grid shop-bg my-3"></div>
   </div>
 
 }

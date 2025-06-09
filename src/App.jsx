@@ -11,50 +11,36 @@ import { Error } from './scenes/Error'
 function App() {
 
   const CHARACTERSDATA = [
-    {type: ["tank", "physical"], identity: "barbare", health: 12, strength: 8, agility: 2},
-    {type: [], identity: "elf", health: 6, strength: 6, agility: 8},
-    {type: [], identity: "harpie", health: 8, strength: 3, agility: 7},
-    {type: [], identity: "werewolf", health: 14, strength: 6, agility: 4},
-    {type: [], identity: "mage", health: 8, strength: 5, agility: 3},
-    {type: [], identity: "dwarf", health: 16, strength: 4, agility: 3},
-    {type: [], identity: "ranger", health: 9, strength: 10, agility: 4},
-    {type: [], identity: "troll", health: 8, strength: 5, agility: 5}
+    {type: ["tank", "attack"], identity: "barbare", armor: 4, resistance: 4, health: 12, strength: 8, agility: 2},
+    {type: ["attack", "heal"], identity: "elf", armor: 4, resistance: 4, health: 6, strength: 6, agility: 8},
+    {type: ["attack"], identity: "harpie", armor: 4, resistance: 4, health: 8, strength: 3, agility: 7},
+    {type: ["tank", "magic"], identity: "werewolf", armor: 4, resistance: 4, health: 14, strength: 6, agility: 4},
+    {type: ["magic"], identity: "mage", armor: 4, resistance: 4, health: 8, strength: 5, agility: 3},
+    {type: ["tank"], identity: "dwarf", armor: 4, resistance: 4, health: 16, strength: 4, agility: 3},
+    {type: ["attack"], identity: "ranger", armor: 4, resistance: 4, health: 9, strength: 10, agility: 4},
+    {type: ["magic", "heal"], identity: "troll", armor: 4, resistance: 4, health: 8, strength: 5, agility: 5}
   ]
 
   const MAPDATAS = [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    { boss: "final", health: 100, strength: 8, agility: 4, defeated: false, gold: 15 },
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    { boss: "challenge", health: 60, strength: 8, agility: 3, defeated: false, gold: 6 },
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    { boss: "weak", health: 20, strength: 6, agility: 10, defeated: false, gold: 3 },
-    undefined,
-    undefined,
-    undefined,
-    undefined,
+    { boss: "final", armor: 8, resistance: 8, health: 100, strength: 8, agility: 4, defeated: false, gold: 15 },
+    { boss: "challenge", armor: 8, resistance: 8, health: 60, strength: 8, agility: 3, defeated: false, gold: 6 },
+    { boss: "weak", armor: 8, resistance: 8, health: 20, strength: 6, agility: 10, defeated: false, gold: 3 }
   ]
 
-  const BUFFDATAS = ["HP buff", "MR shred", "physical shred", "damagebuff", "magic buff", "agitlity buff"]
+  const BUFFDATAS = [
+    {title: "Health buff", cost: 5, active: false},
+    {title: "Resistance shred", cost: 7, active: false},
+    {title: "Armor shred", cost: 5, active: false},
+    {title: "Attack buff", cost: 5, active: false},
+    {title: "Agility buff", cost: 5, active: false},
+    {title: "Resistance buff", cost: 5, active: false},
+    {title: "Armor buff", cost: 5, active: false}
+  ]
 
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATA)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(0)
+  const [gold, setGold] = useState(10)
   let scene = undefined
 
   const startGame = () => {
@@ -99,7 +85,7 @@ function App() {
         team={team}
         gold={gold}
         onFight={goToFight}
-        onShop={goToShop} />
+        onWhere={goToShop} />
       break;
     case 3:
       scene = <Fight
@@ -107,7 +93,9 @@ function App() {
       break;
     case 4:
       scene = <Shop
-        onMap={goToMap} />
+        team={team}
+        gold={gold}
+        onWhere={goToMap} />
       break;
 
     default:
