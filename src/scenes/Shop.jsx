@@ -1,3 +1,9 @@
-export function Shop() {
-  return <h1>Shop</h1>
+import { Button } from '../components/Button'
+
+export function Shop({ onMap }) {
+  return <div>
+    <h1>Shop</h1>
+    <Button value="Map" onClick={onMap}/>
+  </div>
+
 }

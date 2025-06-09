@@ -4,11 +4,11 @@ export function DetailedCharacter({ pickCharacter, character }) {
   } else {
     return <div onClick={pickCharacter}>
     <img
-      src={`${import.meta.env.BASE_URL}/images/${character.type}.png`}
-      alt={character.type}
+      src={`${import.meta.env.BASE_URL}/images/${character.identity}.png`}
+      alt={character.identity}
       className="avatar pick" />
     <div>
-      <p><strong>{character.type}</strong></p>
+      <p><strong>{character.identity}</strong></p>
       <p>health: {character.health}</p>
       <p>strength: {character.strength}</p>
       <p>agility: {character.agility}</p>

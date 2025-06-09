@@ -5,8 +5,8 @@ export function Character({ character }) {
   } else {
     return <div>
       <img
-        src={`${import.meta.env.BASE_URL}/images/${character.type}.png`}
-        alt={character.type}
+        src={`${import.meta.env.BASE_URL}/images/${character.identity}.png`}
+        alt={character.identity}
         className="avatar" />
     </div>
   }

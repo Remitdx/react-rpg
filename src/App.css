@@ -24,15 +24,42 @@
   }
 }
 
+.map-wrapper {
+
+  .map {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.25rem;
+
+    .tile {
+      width: 100%;
+      aspect-ratio: 1/1;
+    }
+
+    .empty-tile {
+      background-color: rgba(0, 255, 255, 0.208);
+    }
+  }
+}
+
 .avatar {
   width: 25vw;
 }
 
 @media (min-width: 768px) {
-  .team {
+  .team-picker {
+    width: 80%;
+    margin: 0 auto;
     }
 
-  .picks {
+  .map-wrapper {
+    width: 80%;
+
+    .map {
+      .tile {
+        aspect-ratio: 2/1;
+      }
+    }
   }
 
   .avatar {

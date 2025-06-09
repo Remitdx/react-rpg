@@ -26,7 +26,7 @@ export function TeamPicker({team, pickCharacter, charactersLeft, onClick}) {
       { team.length < 3 ?
         picks.map(pick => (
           <DetailedCharacter
-            key={pick.type}
+            key={pick.identity}
             character={pick}
             pickCharacter={pickCharacter} />
         )) : <Button onClick={onClick} value="Valider"/>
