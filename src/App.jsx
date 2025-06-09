@@ -22,31 +22,40 @@ function App() {
   ]
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATA)
-  const [team, setTeam] = useState([{ type: "werewolf", health: 14, strength: 6, agility: 4 },
-    { type: "mage", health: 8, strength: 5, agility: 3 }])
+  const [team, setTeam] = useState([])
   let scene = undefined
 
   const startGame = () => {
     setGameState(1)
   }
 
+  const goToMap = () => {
+    setGameState(2)
+  }
 
-
-  /* const addCharacterToTeam = () => {
+  const addCharacterToTeam = (e) => {
+    const pick = CHARACTERSDATA.find(character => character.type == e.target.alt)
     let newTeam = team
-    newTeam << char
+    let newCharactersLeft = charactersLeft
+    newTeam.push(pick)
     setTeam(newTeam)
-  } */
+    setCharactersLeft(newCharactersLeft.filter(character => character.type !== e.target.alt))
+  }
 
   switch (gameState) {
     case 0:
       scene = <Welcome onClick={startGame}/>
       break;
     case 1:
-      scene = <TeamPicker team={team} charactersLeft={charactersLeft}/>
+      scene = <TeamPicker
+        team={team}
+        charactersLeft={charactersLeft}
+        pickCharacter={addCharacterToTeam}
+        onClick={goToMap}/>
       break;
     case 2:
-      scene = <Map />
+      scene = <Map
+        team={team} />
       break;
     case 3:
       scene = <Fight />
@@ -60,7 +69,9 @@ function App() {
       break;
   }
 
-  return scene
+  return <div className="container">
+    {scene}
+  </div>
 }
 
 export default App
