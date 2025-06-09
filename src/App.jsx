@@ -10,7 +10,7 @@ import { Error } from './scenes/Error'
 
 function App() {
 
-  const CHARACTERSDATA = [
+  const CHARACTERSDATAS = [
     {type: ["tank", "attack"], identity: "barbare", armor: 4, resistance: 4, health: 12, strength: 8, agility: 2},
     {type: ["attack", "heal"], identity: "elf", armor: 4, resistance: 4, health: 6, strength: 6, agility: 8},
     {type: ["attack"], identity: "harpie", armor: 4, resistance: 4, health: 8, strength: 3, agility: 7},
@@ -21,10 +21,13 @@ function App() {
     {type: ["magic", "heal"], identity: "troll", armor: 4, resistance: 4, health: 8, strength: 5, agility: 5}
   ]
 
-  const MAPDATAS = [
-    { boss: "final", armor: 8, resistance: 8, health: 100, strength: 8, agility: 4, defeated: false, gold: 15 },
-    { boss: "challenge", armor: 8, resistance: 8, health: 60, strength: 8, agility: 3, defeated: false, gold: 6 },
-    { boss: "weak", armor: 8, resistance: 8, health: 20, strength: 6, agility: 10, defeated: false, gold: 3 }
+  const BOSSDATAS = [
+    { identity: "goatguy", armor: 8, resistance: 8, health: 20, strength: 8, agility: 3, gold: 6 },
+    { identity: "princess", armor: 8, resistance: 8, health: 40, strength: 8, agility: 3, gold: 6 },
+    { identity: "sirena", armor: 8, resistance: 8, health: 80, strength: 6, agility: 10, gold: 3 },
+    { identity: "king", armor: 8, resistance: 8, health: 100, strength: 8, agility: 3, gold: 6 },
+    { identity: "minotaur", armor: 8, resistance: 8, health: 180, strength: 8, agility: 4, gold: 15 },
+    { identity: "medusa", armor: 8, resistance: 8, health: 200, strength: 8, agility: 4, gold: 15 }
   ]
 
   const BUFFDATAS = [
@@ -32,15 +35,17 @@ function App() {
     {title: "Resistance shred", cost: 7, active: false},
     {title: "Armor shred", cost: 5, active: false},
     {title: "Attack buff", cost: 5, active: false},
-    {title: "Agility buff", cost: 5, active: false},
     {title: "Resistance buff", cost: 5, active: false},
     {title: "Armor buff", cost: 5, active: false}
   ]
 
   const [gameState, setGameState] = useState(0)
-  const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATA)
+  const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(10)
+  const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
+  const [buff, setBuff] = useState([false, false, false, false, false, false])
+
   let scene = undefined
 
   const startGame = () => {
@@ -60,7 +65,7 @@ function App() {
   }
 
   const addCharacterToTeam = (e) => {
-    const pick = CHARACTERSDATA.find(character => character.identity == e.target.alt)
+    const pick = CHARACTERSDATAS.find(character => character.identity == e.target.alt)
     let newTeam = team
     let newCharactersLeft = charactersLeft
     newTeam.push(pick)
@@ -81,7 +86,8 @@ function App() {
       break;
     case 2:
       scene = <Map
-        mapDatas={MAPDATAS}
+        boss={boss}
+        bossDatas={BOSSDATAS}
         team={team}
         gold={gold}
         onFight={goToFight}
@@ -93,6 +99,8 @@ function App() {
       break;
     case 4:
       scene = <Shop
+        buff={buff}
+        buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
         onWhere={goToMap} />
