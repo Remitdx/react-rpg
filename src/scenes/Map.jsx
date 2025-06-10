@@ -4,7 +4,7 @@ import { Header } from '../components/Header'
 export function Map({ team, gold, onWhere, boss, bossDatas, onFight }) {
   return <div>
       <Header team={team} gold={gold} onWhere={onWhere} buttonValue="Shop" />
-      <div className="grid map-bg wrapper my-3">
+      <div className="grid map-bg main-window wrapper my-3">
         {bossDatas.map((item, i) =>
           <Tile
             boss={boss[i]}

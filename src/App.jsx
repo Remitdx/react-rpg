@@ -43,8 +43,10 @@ function App() {
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(10)
-  const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
+  const [boss, setBoss] = useState([0, 1, 2, 0, 0, 0]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
+  const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
+
 
   let scene = undefined
 
@@ -56,7 +58,8 @@ function App() {
     setGameState(2)
   }
 
-  const goToFight = () => {
+  const goToFight = (e) => {
+    setCurrentBoss(BOSSDATAS.find(opponent => opponent.identity == e.target.alt))
     setGameState(3)
   }
 
@@ -92,10 +95,13 @@ function App() {
         gold={gold}
         onFight={goToFight}
         onWhere={goToShop} />
-      break;
+        break;
     case 3:
       scene = <Fight
-        onMap={goToMap} />
+        currentBoss={currentBoss}
+        team={team}
+        gold={gold}
+        onWhere={goToMap} />
       break;
     case 4:
       scene = <Shop

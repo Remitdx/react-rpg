@@ -29,6 +29,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background-size: cover;
+}
+
+.main-window {
   height: 80vh;
 }
 
@@ -41,6 +44,10 @@
 
 .avatar {
   height: 25vw;
+}
+
+.avatar-lg {
+  height: 50vw;
 }
 
 .avatar-sm {
@@ -68,6 +75,10 @@
 
   .avatar {
     height: 10vw;
+  }
+
+  .avatar-lg {
+    height: 22vw;
   }
 
   .avatar-sm {
