@@ -7,13 +7,19 @@ import { TeamArea } from './fights/TeamArea'
 
 export function Fight({ currentBoss, team, gold, onWhere }) {
 
+  const firstOrder = () => {
+    let array = [...team]
+    array.push(currentBoss)
+    return array.sort((b, a) => a.agility - b.agility)
+  }
+
   const [bossHealth, setBossHealth] = useState(currentBoss.health)
   const [characterOneHealth, setCharacterOneHealth] = useState(team[0].health)
   const [characterTwoHealth, setCharacterTwoHealth] = useState(team[1].health)
   const [characterThreeHealth, setCharacterThreeHealth] = useState(team[2].health)
+  const [order, setOrder] = useState(firstOrder)
+  const [attackLogs, setAttackLogs] = useState([`Fight against ${currentBoss.identity} as started !`])
 
-  const [order, setOrder] = useState(["order"])
-  const [attackLogs, setAttackLogs] = useState(["attack", "critical strike", "boss hit hard"])
 
   const attack = () => {
     setBossHealth(0)
