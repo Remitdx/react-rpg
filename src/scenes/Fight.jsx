@@ -14,7 +14,7 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
   }
 
   const findAttacker = (e) => {
-    return team.filter(character => character.identity == e.target.nextSibling.children[0].alt)[0]
+    return team.filter(character => character.identity == e.target.previousSibling.children[0].alt)[0]
   }
 
   const damageOutput = (attacker, boss) => {
@@ -23,7 +23,7 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
 
   const handleAttackLogs = (attacker, target, damage, logs) => {
     let newLogs = [...logs]
-    newLogs.push(`${attacker.identity} hits ${target.identity} for ${damage} damages !`)
+    newLogs.push(`${attacker.identity} hits ${target.identity} for ${damage} ${damage == 0 ? "damage" : "damages"} !`)
     return newLogs.length < 5 ? newLogs : newLogs.splice(-1, 4)
   }
 
@@ -32,15 +32,16 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
     return array
   }
 
+  const bossTurn = () => {
+    console.log("team explode")
+  }
+
+  const [order, setOrder] = useState(firstOrder)
+  const [attackLogs, setAttackLogs] = useState([`Fight against ${currentBoss.identity} as started !`])
   const [bossHealth, setBossHealth] = useState(currentBoss.health)
   const [characterOneHealth, setCharacterOneHealth] = useState(team[0].health)
   const [characterTwoHealth, setCharacterTwoHealth] = useState(team[1].health)
   const [characterThreeHealth, setCharacterThreeHealth] = useState(team[2].health)
-  const [order, setOrder] = useState(firstOrder)
-  const [attackLogs, setAttackLogs] = useState([`Fight against ${currentBoss.identity} as started !`])
-
-  const frontline = team.filter((character) => character.type.includes("tank"))
-  const backline = team.filter((character) => !character.type.includes("tank"))
 
   const attack = (e) => {
     const attacker = (findAttacker(e))
@@ -48,6 +49,9 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
     setBossHealth(bossHealth - damage)
     setAttackLogs(handleAttackLogs(attacker, currentBoss, damage, attackLogs ))
     setOrder(rotateArray(order))
+    if (order[0] == currentBoss) {
+      bossTurn()
+    }
   }
 
   return <div>
@@ -59,8 +63,10 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
       <TeamArea
         order={order}
         onClick={attack}
-        frontline={frontline}
-        backline={backline} />
+        characterOneHealth={characterOneHealth}
+        characterTwoHealth={characterTwoHealth}
+        characterThreeHealth={characterThreeHealth}
+        team={team} />
     </div>
   </div>
 }

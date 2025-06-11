@@ -1,10 +1,22 @@
-import { Character } from '../../components/Character'
-import { Button } from '../../components/Button'
-import { Line } from './Line'
+import { Button } from '../../components/Button';
+import { Character } from '../../components/Character';
 
-export function TeamArea({frontline, backline, order, onClick}) {
-  return <div className="fight-item team-area d-flex flex-column justify-content-end">
-    <Line line={frontline} order={order} onClick={onClick} />
-    <Line line={backline} order={order} onClick={onClick} />
+export function TeamArea({team, order, onClick, characterOneHealth, characterTwoHealth, characterThreeHealth}) {
+  return <div className="fight-item team-area d-flex justify-content-around">
+    <div key={team[0].identity} className={`d-flex flex-column align-items-stretch ${team[0].type.includes("tank") ? "align-self-start" : "align-self-end"}`}>
+      { characterOneHealth }
+      {order[0] == team[0] ? <Character size="avatar my-1" character={team[0]} />  : <Character size="avatar-sm" character={team[0]}/>}
+      {order[0] == team[0] ? <Button value="Attack" onClick={onClick}/> : null }
+    </div>
+    <div key={team[1].identity} className={`d-flex flex-column align-items-stretch ${team[1].type.includes("tank") ? "align-self-start" : "align-self-end"}`}>
+      { characterTwoHealth }
+      {order[0] == team[1] ? <Character size="avatar my-1" character={team[1]} />  : <Character size="avatar-sm" character={team[1]}/>}
+      {order[0] == team[1] ? <Button value="Attack" onClick={onClick}/> : null }
+    </div>
+    <div key={team[2].identity} className={`d-flex flex-column align-items-stretch ${team[2].type.includes("tank") ? "align-self-start" : "align-self-end"}`}>
+      { characterThreeHealth }
+      {order[0] == team[2] ? <Character size="avatar my-1" character={team[2]} />  : <Character size="avatar-sm" character={team[2]}/>}
+      {order[0] == team[2] ? <Button value="Attack" onClick={onClick}/> : null }
+    </div>
   </div>
 }

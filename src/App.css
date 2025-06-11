@@ -58,7 +58,10 @@
     border: 2px solid white;
    }
   .boss-area { grid-area: 3 / 1 / 5 / 2 ; }
-  .team-area { grid-area: 5 / 1 / 7 / 2 ;  }
+  .team-area {
+    grid-area: 5 / 1 / 7 / 2 ;
+    padding: 2rem;
+  }
 }
 
 .avatar {
