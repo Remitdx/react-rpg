@@ -20,6 +20,8 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
   const [order, setOrder] = useState(firstOrder)
   const [attackLogs, setAttackLogs] = useState([`Fight against ${currentBoss.identity} as started !`])
 
+  const frontline = team.filter((character) => character.type.includes("tank"))
+  const backline = team.filter((character) => !character.type.includes("tank"))
 
   const attack = () => {
     setBossHealth(0)
@@ -32,11 +34,8 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
       <AttackLogs attackLogs={attackLogs} />
       <BossArea currentBoss={currentBoss} bossHealth={bossHealth} />
       <TeamArea
-        team={team}
-        attack={attack}
-        characterOneHealth={characterOneHealth}
-        characterTwoHealth={characterTwoHealth}
-        characterThreeHealth={characterThreeHealth} />
+        frontline={frontline}
+        backline={backline} />
     </div>
   </div>
 }

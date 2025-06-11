@@ -3,7 +3,7 @@ export function Order({order}) {
     <div className="wrapper d-flex flex-md-column-reverse">
       <div>next</div>
       {order.map(fighter =>
-      <div>
+      <div key={fighter.identity}>
         <img className="item-sm" src={`${import.meta.env.BASE_URL}/images/${fighter.identity}.png`} alt={fighter.identity} />
       </div>
       )}

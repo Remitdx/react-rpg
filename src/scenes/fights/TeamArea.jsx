@@ -1,18 +1,10 @@
 import { Character } from '../../components/Character'
 import { Button } from '../../components/Button'
-//import { Frontlane } from './Frontlane'
-//import { Backlane } from './Backlane'
+import { Line } from './Line'
 
-export function TeamArea({characterOneHealth, characterTwoHealth, characterThreeHealth, team, attack}) {
-  return <div className="fight-item team-area d-flex align-items-end">
-    <Character size="avatar-sm" character={team[0]} />
-    {characterOneHealth}
-    <Button value="Attack" onClick={attack} />
-    <Character size="avatar-sm" character={team[1]} />
-    {characterTwoHealth}
-    <Character size="avatar-sm" character={team[2]} />
-    {characterThreeHealth}
-    {/* <Frontlane/>
-    <Backlane/> */}
+export function TeamArea({frontline, backline}) {
+  return <div className="fight-item team-area d-flex flex-column justify-content-end">
+    <Line line={frontline} />
+    <Line line={backline} />
   </div>
 }
