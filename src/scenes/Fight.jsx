@@ -13,6 +13,25 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
     return array.sort((b, a) => a.agility - b.agility)
   }
 
+  const findAttacker = (e) => {
+    return team.filter(character => character.identity == e.target.nextSibling.children[0].alt)[0]
+  }
+
+  const damageOutput = (attacker, boss) => {
+    return attacker.strength > boss.armor ? attacker.strength - currentBoss.armor : 0
+  }
+
+  const handleAttackLogs = (attacker, target, damage, logs) => {
+    let newLogs = [...logs]
+    newLogs.push(`${attacker.identity} hits ${target.identity} for ${damage} damages !`)
+    return newLogs.length < 5 ? newLogs : newLogs.splice(-1, 4)
+  }
+
+  const rotateArray = (array) => {
+    array.push(array.shift())
+    return array
+  }
+
   const [bossHealth, setBossHealth] = useState(currentBoss.health)
   const [characterOneHealth, setCharacterOneHealth] = useState(team[0].health)
   const [characterTwoHealth, setCharacterTwoHealth] = useState(team[1].health)
@@ -23,8 +42,12 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
   const frontline = team.filter((character) => character.type.includes("tank"))
   const backline = team.filter((character) => !character.type.includes("tank"))
 
-  const attack = () => {
-    setBossHealth(0)
+  const attack = (e) => {
+    const attacker = (findAttacker(e))
+    const damage = damageOutput(attacker, currentBoss)
+    setBossHealth(bossHealth - damage)
+    setAttackLogs(handleAttackLogs(attacker, currentBoss, damage, attackLogs ))
+    setOrder(rotateArray(order))
   }
 
   return <div>
@@ -34,6 +57,8 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
       <AttackLogs attackLogs={attackLogs} />
       <BossArea currentBoss={currentBoss} bossHealth={bossHealth} />
       <TeamArea
+        order={order}
+        onClick={attack}
         frontline={frontline}
         backline={backline} />
     </div>

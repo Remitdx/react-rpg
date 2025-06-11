@@ -7,7 +7,6 @@ export function Order({order}) {
         <img className="item-sm" src={`${import.meta.env.BASE_URL}/images/${fighter.identity}.png`} alt={fighter.identity} />
       </div>
       )}
-      <div>last</div>
     </div>
   </div>
 }
