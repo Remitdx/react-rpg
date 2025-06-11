@@ -22,12 +22,12 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    { identity: "goatguy", armor: 8, resistance: 8, health: 20, strength: 8, agility: 3, gold: 6 },
-    { identity: "princess", armor: 8, resistance: 8, health: 40, strength: 8, agility: 3, gold: 6 },
-    { identity: "sirena", armor: 8, resistance: 8, health: 80, strength: 6, agility: 10, gold: 3 },
-    { identity: "king", armor: 8, resistance: 8, health: 100, strength: 8, agility: 3, gold: 6 },
-    { identity: "minotaur", armor: 8, resistance: 8, health: 180, strength: 8, agility: 4, gold: 15 },
-    { identity: "medusa", armor: 8, resistance: 8, health: 200, strength: 8, agility: 4, gold: 15 }
+    {type: ["attack"], identity: "goatguy", armor: 4, resistance: 2, health: 30, strength: 16, agility: 3, gold: 5 },
+    {type: ["magic"], identity: "princess", armor: 8, resistance: 8, health: 40, strength: 8, agility: 3, gold: 6 },
+    {type: ["magic"], identity: "sirena", armor: 8, resistance: 8, health: 80, strength: 6, agility: 10, gold: 3 },
+    {type: ["attack"], identity: "king", armor: 8, resistance: 8, health: 100, strength: 8, agility: 3, gold: 6 },
+    {type: ["attack"], identity: "minotaur", armor: 8, resistance: 8, health: 180, strength: 8, agility: 4, gold: 15 },
+    {type: ["magic"], identity: "medusa", armor: 8, resistance: 8, health: 200, strength: 8, agility: 4, gold: 15 }
   ]
 
   const BUFFDATAS = [
@@ -111,7 +111,6 @@ function App() {
         gold={gold}
         onWhere={goToMap} />
       break;
-
     default:
       scene = <Error />
       break;
