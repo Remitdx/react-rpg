@@ -22,12 +22,12 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 4, resistance: 2, health: 30, strength: 16, agility: 3, gold: 5 },
-    {type: ["magic"], identity: "princess", armor: 8, resistance: 8, health: 40, strength: 8, agility: 3, gold: 6 },
-    {type: ["magic"], identity: "sirena", armor: 8, resistance: 8, health: 80, strength: 6, agility: 10, gold: 3 },
-    {type: ["attack"], identity: "king", armor: 8, resistance: 8, health: 100, strength: 8, agility: 3, gold: 6 },
-    {type: ["attack"], identity: "minotaur", armor: 8, resistance: 8, health: 180, strength: 8, agility: 4, gold: 15 },
-    {type: ["magic"], identity: "medusa", armor: 8, resistance: 8, health: 200, strength: 8, agility: 4, gold: 15 }
+    {type: ["attack"], identity: "goatguy", armor: 0, resistance: 0, health: 20, strength: 16, agility: 3, gold: 5 },
+    {type: ["magic"], identity: "princess", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 10 },
+    {type: ["magic"], identity: "sirena", armor: 0, resistance: 0, health: 30, strength: 6, agility: 3, gold: 15 },
+    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 20 },
+    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 30, strength: 8, agility: 4, gold: 25 },
+    {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
   ]
 
   const BUFFDATAS = [
@@ -43,7 +43,7 @@ function App() {
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(10)
-  const [boss, setBoss] = useState([0, 1, 2, 0, 0, 0]) // 0: fightable, 1: locked, 2: defeated
+  const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
 
@@ -65,6 +65,37 @@ function App() {
 
   const goToShop = () => {
     setGameState(4)
+  }
+
+  const handleBossDeath = (e) => {
+    const bossName = e.target.nextSibling.children[0].alt
+    const amount = BOSSDATAS.find(boss => boss.identity == bossName).gold
+    setGold(gold + amount)
+    switch (bossName) {
+      case "goatguy":
+        setBoss([2, 0, 1, 1, 1, 1])
+        break;
+      case "princess":
+        setBoss([2, 2, 0, 1, 1, 1])
+        break;
+      case "sirena":
+        setBoss([2, 2, 2, 0, 1, 1])
+        break;
+      case "king":
+        setBoss([2, 2, 2, 2, 0, 1])
+        break;
+      case "minotaur":
+        setBoss([2, 2, 2, 2, 2, 0])
+        break;
+      case "medusa":
+        setBoss([2, 2, 2, 2, 2, 2])
+        break;
+
+      default:
+        console.log("Something went wrong with boss update")
+        break;
+    }
+    goToMap()
   }
 
   const addCharacterToTeam = (e) => {
@@ -98,6 +129,7 @@ function App() {
         break;
     case 3:
       scene = <Fight
+        onBossDeath={handleBossDeath}
         currentBoss={currentBoss}
         team={team}
         gold={gold}

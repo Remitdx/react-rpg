@@ -5,7 +5,7 @@ import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
 import { TeamArea } from './fights/TeamArea'
 
-export function Fight({ currentBoss, team, gold, onWhere }) {
+export function Fight({ currentBoss, team, gold, onBossDeath, onWhere }) {
 
   const firstOrder = () => {
     let array = [...team]
@@ -27,7 +27,8 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
 
   const handleAttackLogs = (attacker, target, damage, logs) => {
     let newLogs = [...logs]
-    newLogs.push(`${attacker.identity} hits ${target.identity} for ${damage} ${damage == 0 ? "damage" : "damages"} !`)
+    const type = attacker.type.includes("magic") ? "magic" : "physical"
+    newLogs.push(`${attacker.identity} hits ${target.identity} for ${damage} ${type} ${damage < 2 ? "damage" : "damages"} !`)
     newLogs.length < 5 ? newLogs : newLogs.shift()
     return newLogs
   }
@@ -39,6 +40,14 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
 
   const getRandomInteger = (max) => {
     return Math.floor(Math.random() * max)
+  }
+
+  const removeFromOrder = () => {
+
+  }
+
+  const handleCharacterDeath = () => {
+
   }
 
   const randomAliveTarget = () => {
@@ -75,7 +84,11 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
   }
 
   const princessAI = () => {
-    console.log("princess fight")
+    if (bossHealth < 20) {
+      console.log("princess heal herself")
+    } else {
+      goatguyAI()
+    }
   }
 
   const sirenaAI = () => {
@@ -145,16 +158,20 @@ export function Fight({ currentBoss, team, gold, onWhere }) {
   return <div>
     <Header team={team} gold={gold} onWhere={onWhere} buttonValue="Map" />
     <div className="wrapper fight-grid main-window my-3">
-      <Order order={order}/>
+      <Order
+        order={order}
+        bossHealth={bossHealth} />
       <FightLogs logs={logs} />
       <BossArea
         currentBoss={currentBoss}
         bossHealth={bossHealth}
         bossArmor={bossArmor}
-        bossResistance={bossResistance} />
+        bossResistance={bossResistance}
+        onBossDeath={onBossDeath} />
       <TeamArea
         order={order}
         onClick={attack}
+        bossHealth={bossHealth}
         characterOneHealth={characterOneHealth}
         characterTwoHealth={characterTwoHealth}
         characterThreeHealth={characterThreeHealth}
