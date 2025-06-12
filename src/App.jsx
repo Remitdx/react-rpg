@@ -114,7 +114,9 @@ function App() {
 
   switch (gameState) {
     case 0:
-      scene = <Welcome onClick={startGame}/>
+      scene = <Welcome
+        heroes={CHARACTERSDATAS.slice(3,6)}
+        onClick={startGame}/>
       break;
     case 1:
       scene = <TeamPicker

@@ -12,11 +12,38 @@
   }
 }
 
+@keyframes left-right-infinite {
+  0%, 5%, 45%, 55%, 95%, 100% {
+    left: -50%;
+  }
+  17%,35% {
+    left: -140%;
+  }
+  65%,83% {
+    left: 40%;
+  }
+}
+
 .wrapper {
   background-color: rgba(217, 217, 217, 0.415);
   border: 2px solid rgb(255, 255, 255);
   border-radius: 0.5rem;
   padding: 0.5rem;
+}
+
+.carroussel-wrapper {
+  width: 40%;
+  margin: 1rem auto;
+  overflow-x: hidden;
+  position: relative;
+  height: 12vw;
+
+  .carroussel {
+    width: 200%;
+    position: absolute;
+    left: -50%;
+    animation: left-right-infinite ease-in-out 10s infinite 2s;
+  }
 }
 
 .team-picker{
@@ -57,6 +84,7 @@
 }
 
 .fight-grid {
+  height: 100vh;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(6, 1fr);
@@ -103,6 +131,11 @@
   .team-picker {
     width: 80%;
     margin: 0 auto;
+  }
+
+  .carroussel-wrapper {
+    height: 6vw;
+    width: 30%;
   }
 
   .grid {
