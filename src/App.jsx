@@ -6,6 +6,7 @@ import { Map } from './scenes/Map'
 import { Fight } from './scenes/Fight'
 import { Shop } from './scenes/Shop'
 import { Error } from './scenes/Error'
+import { Tips } from './scenes/Tips'
 
 
 function App() {
@@ -67,6 +68,10 @@ function App() {
     setGameState(4)
   }
 
+  const goToTips = () => {
+    setGameState(5)
+  }
+
   const handleBossDeath = (e) => {
     const bossName = e.target.nextSibling.children[0].alt
     const amount = BOSSDATAS.find(boss => boss.identity == bossName).gold
@@ -125,7 +130,8 @@ function App() {
         team={team}
         gold={gold}
         onFight={goToFight}
-        onWhere={goToShop} />
+        onTips={goToTips}
+        onShop={goToShop} />
         break;
     case 3:
       scene = <Fight
@@ -133,7 +139,7 @@ function App() {
         currentBoss={currentBoss}
         team={team}
         gold={gold}
-        onWhere={goToMap} />
+        onMap={goToMap} />
       break;
     case 4:
       scene = <Shop
@@ -141,7 +147,14 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
-        onWhere={goToMap} />
+        onMap={goToMap} />
+      break;
+    case 5:
+      scene = <Tips
+        team={team}
+        gold={gold}
+        onShop={goToShop}
+        onMap={goToMap} />
       break;
     default:
       scene = <Error />

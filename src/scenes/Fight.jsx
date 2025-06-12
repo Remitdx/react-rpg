@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Header } from '../components/Header'
 import { Order } from './fights/Order'
 import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
 import { TeamArea } from './fights/TeamArea'
 
-export function Fight({ currentBoss, team, gold, onBossDeath, onWhere }) {
+export function Fight({ currentBoss, team, onBossDeath, onMap }) {
 
   const firstOrder = () => {
     let array = [...team]
@@ -156,8 +155,7 @@ export function Fight({ currentBoss, team, gold, onBossDeath, onWhere }) {
   }
 
   return <div>
-    <Header team={team} gold={gold} onWhere={onWhere} buttonValue="Map" />
-    <div className="wrapper fight-grid main-window my-3">
+    <div className="wrapper fight-grid main-window">
       <Order
         order={order}
         bossHealth={bossHealth} />
@@ -167,6 +165,7 @@ export function Fight({ currentBoss, team, gold, onBossDeath, onWhere }) {
         bossHealth={bossHealth}
         bossArmor={bossArmor}
         bossResistance={bossResistance}
+        onMap={onMap}
         onBossDeath={onBossDeath} />
       <TeamArea
         order={order}

@@ -2,7 +2,7 @@ import { Character } from '../components/Character'
 import { Button } from '../components/Button'
 import { ResourcesPanel } from '../components/ResourcesPanel'
 
-export function Header({team, gold, onWhere, buttonValue}) {
+export function Header({team, gold, onButtonOne, onButtonTwo, buttonOne, buttonTwo}) {
   return <div className="header wrapper d-flex align-items-center justify-content-between">
     <div className="d-flex">
       {team.map(member => (
@@ -13,6 +13,9 @@ export function Header({team, gold, onWhere, buttonValue}) {
       ))}
     </div>
     <ResourcesPanel gold={gold} />
-    <Button value={buttonValue} onClick={onWhere} />
+    <div>
+      <Button value={buttonOne} onClick={onButtonOne} />
+      <Button value={buttonTwo} onClick={onButtonTwo} />
+    </div>
   </div>
 }
