@@ -59,10 +59,24 @@
   }
 }
 
-.grid {
+.buff {color: rgb(30, 129, 0);}
+.shred {color: rgb(209, 0, 0);}
+
+.map-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background-size: cover;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  background-size: cover;
+
+  .sell {
+    grid-area: 4/1/5/3;
+  }
 }
 
 .main-window {
@@ -138,13 +152,19 @@
     width: 30%;
   }
 
-  .grid {
+  .map-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
 
     .grid-item-pointer {
       cursor: pointer;
     }
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    .sell { grid-area: 3/2/4/3; }
   }
 
   .fight-grid {

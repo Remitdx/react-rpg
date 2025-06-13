@@ -32,18 +32,18 @@ function App() {
   ]
 
   const BUFFDATAS = [
-    {title: "Health buff", cost: 5, active: false},
-    {title: "Resistance shred", cost: 7, active: false},
-    {title: "Armor shred", cost: 5, active: false},
-    {title: "Attack buff", cost: 5, active: false},
-    {title: "Resistance buff", cost: 5, active: false},
-    {title: "Armor buff", cost: 5, active: false}
+    {title: "Health buff", cost: 5, img: "health-buff"},
+    {title: "Attack buff", cost: 5, img: "attack-buff"},
+    {title: "Armor buff", cost: 5, img: "armor-buff"},
+    {title: "Resistance buff", cost: 5, img: "resistance-buff"},
+    {title: "Armor shred", cost: 5, img: "armor-shred"},
+    {title: "Resistance shred", cost: 7, img: "resistance-shred"}
   ]
 
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(10)
+  const [gold, setGold] = useState(100)
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
@@ -112,6 +112,14 @@ function App() {
     setCharactersLeft(newCharactersLeft.filter(character => character.identity !== e.target.alt))
   }
 
+  const buyItem = (e) => {
+    console.log(e.target)
+  }
+
+  const sellAllItems = (e) => {
+    console.log("Sell")
+  }
+
   switch (gameState) {
     case 0:
       scene = <Welcome
@@ -149,6 +157,8 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
+        onBuy={buyItem}
+        onSell={sellAllItems}
         onTips={goToTips}
         onMap={goToMap} />
       break;

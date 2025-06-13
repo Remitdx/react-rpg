@@ -1,4 +1,4 @@
-import { Tile } from '../components/Tile'
+import { BossTile } from '../components/BossTile'
 import { Header } from '../components/Header'
 
 export function Map({ team, gold, onShop, onTips, boss, bossDatas, onFight }) {
@@ -10,9 +10,9 @@ export function Map({ team, gold, onShop, onTips, boss, bossDatas, onFight }) {
       buttonOne="Shop"
       onButtonTwo={onTips}
       buttonTwo="Tips" />
-    <div className="grid map-bg main-window wrapper my-3">
+    <div className="map-grid map-bg main-window wrapper my-3">
       {bossDatas.map((item, i) =>
-        <Tile
+        <BossTile
           boss={boss[i]}
           item={item}
           key={i}

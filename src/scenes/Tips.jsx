@@ -10,7 +10,11 @@ export function Tips({team, gold, onShop, onMap}) {
       onButtonTwo={onShop}
       buttonTwo="Shop" />
     <div className="tips wrapper main-window my-3">
-      <h1 className="text-center">Tips</h1>
+      <div className="text-center">
+        <h1>Tips</h1>
+        <p>Your goal is to defeat 6 bosses. Earn coins by beating them.</p>
+        <p>Buy special power from the shop to improve your chances.</p>
+      </div>
       <div className="d-flex flex-column flex-md-row justify-content-around align-items-center">
         <div className="wrapper m-1">
           <h2 className="text-center">Roles</h2>
@@ -38,6 +42,7 @@ export function Tips({team, gold, onShop, onMap}) {
           <p><strong>Resistance</strong> : reduce incoming magic damages</p>
           <p><strong>Strengh</strong> : Damages dealed before reduction by armor or resistance</p>
           <p><strong>Agility</strong> : Determine the attack order and frequency</p>
+          <p>The color indicates a <strong className="buff">buff</strong> or a <strong className="shred">shred</strong>.</p>
         </div>
       </div>
     </div>

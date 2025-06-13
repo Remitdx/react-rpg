@@ -1,4 +1,4 @@
-export function Tile({ onClick, item, boss }) {
+export function BossTile({ onClick, item, boss }) {
 
   if (boss == 0) {
     return <div onClick={onClick} className="tile grid-item-pointer d-flex flex-column align-items-center justify-content-center">
