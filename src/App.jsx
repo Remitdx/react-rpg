@@ -149,6 +149,7 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
+        onTips={goToTips}
         onMap={goToMap} />
       break;
     case 5:
