@@ -61,8 +61,7 @@ function App() {
 
   const goToFight = (e) => {
     setCurrentBoss(BOSSDATAS.find(opponent => opponent.identity == e.target.alt))
-    console.log(e.target)
-    //setGameState(3)
+    setGameState(3)
   }
 
   const goToShop = () => {
@@ -115,12 +114,25 @@ function App() {
 
   const buyItem = (e) => {
     const item = BUFFDATAS.find(buff => buff.title == e.target.alt)
-    setGold(gold - item.cost)
-    console.log(item)
+    if (gold - item.cost < 0 ) {
+      console.log('cannot afford this')
+    } else  {
+      setGold(gold - item.cost)
+      const index = BUFFDATAS.findIndex(buff => buff == item)
+      let newBuff = [...buff]
+      newBuff[index] = true
+      setBuff(newBuff)
+    }
   }
 
-  const sellAllItems = (e) => {
-    console.log("Sell")
+  const sellAllItems = () => {
+    let refund = 0
+    buff.forEach((buff, i) => {
+      if (buff) {
+        refund = refund + BUFFDATAS[i].cost
+      }
+    })
+    setGold(gold + refund)
     setBuff([false, false, false, false, false, false])
   }
 
