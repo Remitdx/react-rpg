@@ -12,38 +12,38 @@ import { Tips } from './scenes/Tips'
 function App() {
 
   const CHARACTERSDATAS = [
-    {type: ["tank", "attack"], identity: "barbare", armor: 4, resistance: 4, health: 12, strength: 8, agility: 2},
-    {type: ["attack", "heal"], identity: "elf", armor: 4, resistance: 4, health: 6, strength: 6, agility: 8},
-    {type: ["attack"], identity: "harpie", armor: 4, resistance: 4, health: 8, strength: 3, agility: 7},
-    {type: ["tank", "magic"], identity: "werewolf", armor: 4, resistance: 4, health: 14, strength: 6, agility: 4},
-    {type: ["magic"], identity: "mage", armor: 4, resistance: 4, health: 8, strength: 5, agility: 3},
-    {type: ["tank"], identity: "dwarf", armor: 4, resistance: 4, health: 16, strength: 4, agility: 3},
-    {type: ["attack"], identity: "ranger", armor: 4, resistance: 4, health: 9, strength: 10, agility: 4},
-    {type: ["magic", "heal"], identity: "troll", armor: 4, resistance: 4, health: 8, strength: 5, agility: 5}
+    {type: ["tank", "attack"], identity: "barbare", armor: 6, resistance: 2, health: 16, strength: 8, agility: 2},
+    {type: ["attack", "heal"], identity: "elf", armor: 6, resistance: 3, health: 8, strength: 9, agility: 8},
+    {type: ["magic"], identity: "harpie", armor: 6, resistance: 6, health: 7, strength: 11, agility: 7},
+    {type: ["tank", "magic"], identity: "werewolf", armor: 4, resistance: 8, health: 14, strength: 6, agility: 3},
+    {type: ["magic"], identity: "mage", armor: 0, resistance: 6, health: 9, strength: 16, agility: 4},
+    {type: ["tank"], identity: "dwarf", armor: 6, resistance: 6, health: 18, strength: 3, agility: 1},
+    {type: ["attack"], identity: "ranger", armor: 6, resistance: 0, health: 9, strength: 16, agility: 5},
+    {type: ["magic", "heal"], identity: "troll", armor: 2, resistance: 6, health: 10, strength: 9, agility: 6}
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 0, resistance: 0, health: 20, strength: 16, agility: 3, gold: 5 },
-    {type: ["magic"], identity: "princess", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 10 },
+    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 60, strength: 16, agility: 3, gold: 10 },
+    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 60, strength: 14, agility: 3, gold: 10 },
     {type: ["magic"], identity: "sirena", armor: 0, resistance: 0, health: 30, strength: 6, agility: 3, gold: 15 },
     {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 20 },
-    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 30, strength: 8, agility: 4, gold: 25 },
+    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 30, strength: 8, agility: 4, gold: 30 },
     {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
   ]
 
   const BUFFDATAS = [
-    {title: "Health buff", cost: 5, img: "health-buff"},
-    {title: "Attack buff", cost: 5, img: "attack-buff"},
-    {title: "Armor buff", cost: 5, img: "armor-buff"},
-    {title: "Resistance buff", cost: 5, img: "resistance-buff"},
-    {title: "Armor shred", cost: 5, img: "armor-shred"},
-    {title: "Resistance shred", cost: 7, img: "resistance-shred"}
+    {title: "Health buff", cost: 15, img: "health-buff"},
+    {title: "Attack buff", cost: 20, img: "attack-buff"},
+    {title: "Armor buff", cost: 15, img: "armor-buff"},
+    {title: "Resistance buff", cost: 15, img: "resistance-buff"},
+    {title: "Armor shred", cost: 25, img: "armor-shred"},
+    {title: "Resistance shred", cost: 25, img: "resistance-shred"}
   ]
 
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(100)
+  const [gold, setGold] = useState(5)
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
