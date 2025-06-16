@@ -61,7 +61,8 @@ function App() {
 
   const goToFight = (e) => {
     setCurrentBoss(BOSSDATAS.find(opponent => opponent.identity == e.target.alt))
-    setGameState(3)
+    console.log(e.target)
+    //setGameState(3)
   }
 
   const goToShop = () => {
@@ -113,11 +114,14 @@ function App() {
   }
 
   const buyItem = (e) => {
-    console.log(e.target)
+    const item = BUFFDATAS.find(buff => buff.title == e.target.alt)
+    setGold(gold - item.cost)
+    console.log(item)
   }
 
   const sellAllItems = (e) => {
     console.log("Sell")
+    setBuff([false, false, false, false, false, false])
   }
 
   switch (gameState) {
