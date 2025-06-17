@@ -23,7 +23,7 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 60, strength: 16, agility: 3, gold: 10 },
+    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 55, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 60, strength: 14, agility: 3, gold: 10 },
     {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 100, strength: 16, agility: 3, gold: 15 },
     {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 20 },

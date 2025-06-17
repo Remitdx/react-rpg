@@ -1,5 +1,5 @@
-export function Order({order, bossHealth}) {
-  if (bossHealth > 0) {
+export function Order({ order, bossHealth, characterOneHealth, characterTwoHealth, characterThreeHealth }) {
+  if (bossHealth > 0 && !(characterOneHealth > 0 && characterTwoHealth > 0 && characterThreeHealth > 0)) {
     return <div className="fight-item order-list d-flex justify-content-center align-items-center">
       <div className="wrapper d-flex flex-md-column-reverse">
         <div>next</div>

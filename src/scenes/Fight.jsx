@@ -41,90 +41,91 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     return Math.floor(Math.random() * max)
   }
 
-  const removeFromOrder = () => {
-
-  }
-
-  const handleCharacterDeath = () => {
-
-  }
-
-  const randomAliveTarget = () => {
+  const aliveTankOrRandomAliveTarget = () => {
     let aliveTeam = [...team]
     characterTwoHealth == 0 ? aliveTeam.splice(1,1) : aliveTeam
     characterOneHealth == 0 ? aliveTeam.shift() : aliveTeam
     characterThreeHealth == 0 ? aliveTeam.pop() : aliveTeam
-    return aliveTeam[getRandomInteger(aliveTeam.length)]
+    return aliveTeam.find(member => member.type.includes("tank"))  || aliveTeam[getRandomInteger(aliveTeam.length)]
   }
 
   const handleTeamHealthLoss = (index, damage) => {
     switch (index) {
       case 0:
         setCharacterOneHealth(characterOneHealth - damage < 0 ? 0 : characterOneHealth - damage)
-        break;
+        return characterOneHealth > 0 && characterOneHealth - damage < 1
       case 1:
         setCharacterTwoHealth(characterTwoHealth - damage < 0 ? 0 : characterTwoHealth - damage)
-        break;
+        return characterTwoHealth > 0 && characterTwoHealth - damage < 1
       case 2:
         setCharacterThreeHealth(characterThreeHealth - damage < 0 ? 0 : characterThreeHealth - damage)
-        break;
+        return characterThreeHealth > 0 && characterThreeHealth - damage < 1
       default:
         console.log("ERROR: something wrong with damage from the boss")
         break;
     }
   }
 
-  const goatguyAI = () => {
-    const target = team.find(member => member.type.includes("tank")) || randomAliveTarget()
-    const index = team.findIndex(member => member.identity == target.identity)
-    const damage = damageOutput(currentBoss, target)
-    handleTeamHealthLoss(index, damage)
-    setLogs(handleAttackLogs(currentBoss, target, damage, logs))
-  }
-
-  const princessAI = () => {
-    if (bossHealth < 20) {
-      console.log("princess heal herself")
+  const goatguyAI = (attackLogs, newOrder) => {
+    const target = aliveTankOrRandomAliveTarget()
+    if (target) {
+      const index = team.findIndex(member => member.identity == target.identity)
+      const damage = damageOutput(currentBoss, target)
+      const targetKilled = handleTeamHealthLoss(index, damage)
+      targetKilled ? setOrder(newOrder.filter(member => member.identity !== target.identity)) : setOrder(newOrder)
+      setLogs(handleAttackLogs(currentBoss, target, damage, attackLogs))
     } else {
-      goatguyAI()
+      console.log("All heroes are dead !")
     }
   }
 
-  const sirenaAI = () => {
+  const princessAI = (attackLogs, newOrder) => {
+    if (bossHealth < 20) {
+      console.log("princess heal herself")
+    } else {
+      goatguyAI(attackLogs, newOrder)
+    }
+  }
+
+  const sirenaAI = (attackLogs, newOrder) => {
     console.log("sirena fight")
+    goatguyAI(attackLogs, newOrder)
   }
 
-  const kingAI = () => {
+  const kingAI = (attackLogs, newOrder) => {
     console.log("king fight")
+    goatguyAI(attackLogs, newOrder)
   }
 
-  const minotaurAI = () => {
+  const minotaurAI = (attackLogs, newOrder) => {
     console.log("minotaur fight")
+    goatguyAI(attackLogs, newOrder)
   }
 
-  const medusaAI = () => {
+  const medusaAI = (attackLogs, newOrder) => {
     console.log("medusa fight")
+    goatguyAI(attackLogs, newOrder)
   }
 
-  const bossTurn = () => {
+  const bossTurn = (attackLogs, newOrder) => {
     switch (currentBoss.identity) {
       case "goatguy":
-        goatguyAI()
+        goatguyAI(attackLogs, newOrder)
         break;
       case "princess":
-        princessAI()
+        princessAI(attackLogs, newOrder)
         break;
       case "sirena":
-        sirenaAI()
+        sirenaAI(attackLogs, newOrder)
         break;
       case "king":
-        kingAI()
+        kingAI(attackLogs, newOrder)
         break;
       case "minotaur":
-        minotaurAI()
+        minotaurAI(attackLogs, newOrder)
         break;
       case "medusa":
-        medusaAI()
+        medusaAI(attackLogs, newOrder)
         break;
       default:
         console.log("ERROR: can't find boss brain !")
@@ -146,11 +147,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     const attacker = (findAttacker(e))
     const damage = damageOutput(attacker, currentBoss)
     setBossHealth(bossHealth - damage < 0 ? 0 : bossHealth - damage)
-    setLogs(handleAttackLogs(attacker, currentBoss, damage, logs ))
+    const attackLogs = handleAttackLogs(attacker, currentBoss, damage, logs)
     setOrder(rotateArray(order))
-    if (order[0] == currentBoss) {
-      bossTurn()
-      setOrder(rotateArray(order))
+    if (order[0] == currentBoss && bossHealth - damage > 1) {
+      const newOrder = rotateArray(order)
+      bossTurn(attackLogs, newOrder)
+    } else {
+      setLogs(attackLogs)
     }
   }
 
