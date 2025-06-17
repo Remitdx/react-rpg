@@ -157,27 +157,25 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     }
   }
 
-  return <div>
-    <div className="wrapper fight-grid main-window">
-      <Order
-        order={order}
-        bossHealth={bossHealth} />
-      <FightLogs logs={logs} />
-      <BossArea
-        currentBoss={currentBoss}
-        bossHealth={bossHealth}
-        bossArmor={bossArmor}
-        bossResistance={bossResistance}
-        onMap={onMap}
-        onBossDeath={onBossDeath} />
-      <TeamArea
-        order={order}
-        onClick={attack}
-        bossHealth={bossHealth}
-        characterOneHealth={characterOneHealth}
-        characterTwoHealth={characterTwoHealth}
-        characterThreeHealth={characterThreeHealth}
-        team={team} />
-    </div>
+  return <div className="wrapper fight-bg fight-grid main-window">
+    <Order
+      order={order}
+      bossHealth={bossHealth} />
+    <FightLogs logs={logs} />
+    <BossArea
+      currentBoss={currentBoss}
+      bossHealth={bossHealth}
+      bossArmor={bossArmor}
+      bossResistance={bossResistance}
+      onMap={onMap}
+      onBossDeath={onBossDeath} />
+    <TeamArea
+      order={order}
+      onClick={attack}
+      bossHealth={bossHealth}
+      characterOneHealth={characterOneHealth}
+      characterTwoHealth={characterTwoHealth}
+      characterThreeHealth={characterThreeHealth}
+      team={team} />
   </div>
 }

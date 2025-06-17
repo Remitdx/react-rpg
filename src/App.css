@@ -93,6 +93,10 @@
 .map-bg {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(../public/images/map.jpg);
 }
+
+.fight-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(../public/images/fight.jpg);
+}
 .shop-bg {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(../public/images/shop.jpg);
 }
