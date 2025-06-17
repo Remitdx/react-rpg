@@ -16,8 +16,11 @@ export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, o
     </div>
   } else {
     return <div className="fight-item boss-area d-flex align-items-center justify-content-end">
-      <Button value="Continue" onClick={onBossDeath} />
-      <Character size="avatar-lg" character={currentBoss}/>
+      <div className="d-flex flex-column align-items-start mx-2 ">
+        <p>{currentBoss.identity.toUpperCase()} is dead !</p>
+        <Button value="Continue" onClick={onBossDeath} />
+      </div>
+      <Character size="avatar-lg" character={currentBoss} dead={true}/>
     </div>
   }
 }

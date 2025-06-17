@@ -25,7 +25,7 @@ function App() {
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 60, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 60, strength: 14, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 0, resistance: 0, health: 30, strength: 6, agility: 3, gold: 15 },
+    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 100, strength: 16, agility: 3, gold: 15 },
     {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 20 },
     {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 30, strength: 8, agility: 4, gold: 30 },
     {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
@@ -73,7 +73,7 @@ function App() {
   }
 
   const handleBossDeath = (e) => {
-    const bossName = e.target.nextSibling.children[0].alt
+    const bossName = e.target.parentElement.nextSibling.children[0].alt
     const amount = BOSSDATAS.find(boss => boss.identity == bossName).gold
     setGold(gold + amount)
     switch (bossName) {

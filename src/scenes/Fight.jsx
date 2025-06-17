@@ -27,8 +27,8 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
   const handleAttackLogs = (attacker, target, damage, logs) => {
     let newLogs = [...logs]
     const type = attacker.type.includes("magic") ? "magic" : "physical"
-    newLogs.push(`${attacker.identity.toUpperCase() } hits ${target.identity.toUpperCase()} for ${damage} ${type} ${damage < 2 ? "damage" : "damages"} !`)
-    newLogs.length < 5 ? newLogs : newLogs.shift()
+    newLogs.unshift(`- ${attacker.identity.toUpperCase() } hits ${target.identity.toUpperCase()} for ${damage} ${type} ${damage < 2 ? "damage" : "damages"} !`)
+    newLogs.length < 13 ? newLogs : newLogs.shift()
     return newLogs
   }
 
@@ -133,7 +133,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
   }
 
   const [order, setOrder] = useState(firstOrder)
-  const [logs, setLogs] = useState([`Fight against ${currentBoss.identity.toUpperCase()} has started !`])
+  const [logs, setLogs] = useState([`- Fight against ${currentBoss.identity.toUpperCase()} has started !`])
   const [bossHealth, setBossHealth] = useState(currentBoss.health)
   const [bossArmor, setBossArmor] = useState(currentBoss.armor)
   const [bossResistance, setBossResistance] = useState(currentBoss.resistance)
