@@ -104,6 +104,7 @@ function App() {
   }
 
   const addCharacterToTeam = (e) => {
+    console.log(e.target)
     const pick = CHARACTERSDATAS.find(character => character.identity == e.target.alt)
     let newTeam = team
     let newCharactersLeft = charactersLeft
@@ -164,7 +165,8 @@ function App() {
         onBossDeath={handleBossDeath}
         currentBoss={currentBoss}
         team={team}
-        gold={gold}
+        buffDatas={BUFFDATAS}
+        buff={buff}
         onMap={goToMap} />
       break;
     case 4:

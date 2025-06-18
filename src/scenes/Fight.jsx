@@ -3,8 +3,9 @@ import { Order } from './fights/Order'
 import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
 import { TeamArea } from './fights/TeamArea'
+import { RecapBuffs } from './fights/RecapBuffs'
 
-export function Fight({ currentBoss, team, onBossDeath, onMap }) {
+export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }) {
 
   const firstOrder = () => {
     let array = [...team]
@@ -164,10 +165,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
   }
 
   return <div className="wrapper fight-bg fight-grid main-window">
+    <FightLogs logs={logs} />
     <Order
       order={order}
       bossHealth={bossHealth} />
-    <FightLogs logs={logs} />
+    <RecapBuffs
+      buff={buff}
+      buffDatas={buffDatas}/>
     <BossArea
       currentBoss={currentBoss}
       bossHealth={bossHealth}

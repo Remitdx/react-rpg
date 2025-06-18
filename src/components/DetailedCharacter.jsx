@@ -2,12 +2,13 @@ export function DetailedCharacter({ pickCharacter, character }) {
   if (!character) {
     return <div className="avatar">-</div>
   } else {
-    return <div className="d-flex flex-column flex-md-row align-items-md-end" onClick={pickCharacter}>
-    <div className="d-flex flex-column align-items-center mx-1">
+    return <div className="d-flex flex-column flex-md-row align-items-md-end">
+    <div className="picker-character d-flex flex-column align-items-center">
       <img
+        onClick={pickCharacter}
         src={`${import.meta.env.BASE_URL}/images/${character.identity}.png`}
         alt={character.identity}
-        className="avatar mb-2 pick" />
+        className="avatar mb-2" />
         <p><strong>{character.identity}</strong></p>
         <div className="d-flex">
           { character.type.map( type =>
@@ -15,7 +16,7 @@ export function DetailedCharacter({ pickCharacter, character }) {
           )}
         </div>
     </div>
-    <div className="mx-1">
+    <div className="picker-stats">
       <p>health: {character.health}</p>
       <p>strength: {character.strength}</p>
       <p>armor: {character.armor}</p>

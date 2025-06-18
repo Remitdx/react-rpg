@@ -17,9 +17,9 @@ export function TeamPicker({team, pickCharacter, charactersLeft, onClick}) {
   return <div className='team-picker'>
     <h2 className='text-center'>Your Team</h2>
     <div className="wrapper d-flex justify-content-around">
-      {team.length < 3 ? <Character size="avatar" character={team[0]}/> : <DetailedCharacter character={team[0]} />}
-      {team.length < 3 ? <Character size="avatar" character={team[1]}/> : <DetailedCharacter character={team[1]} />}
-      {team.length < 3 ? <Character size="avatar" character={team[2]}/> : <DetailedCharacter character={team[2]} />}
+      <Character size="avatar" character={team[0]}/>
+      <Character size="avatar" character={team[1]}/>
+      <Character size="avatar" character={team[2]}/>
     </div>
     {team.length < 3 ? <h2 className='text-center mt-2'>Pick one</h2> : <h2></h2> }
     <div className="wrapper d-flex justify-content-around">
