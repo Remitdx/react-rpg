@@ -42,7 +42,7 @@ export function Tips({team, gold, onShop, onMap}) {
           <p><strong>Resistance</strong> : reduce incoming magic damages</p>
           <p><strong>Strengh</strong> : Damages dealed before reduction by armor or resistance</p>
           <p><strong>Agility</strong> : Determine the attack order and frequency</p>
-          <p>The color indicates a <strong className="buff">buff</strong> or a <strong className="shred">shred</strong>.</p>
+          <p>The color indicates a <strong className="green">buff</strong> or a <strong className="red">shred</strong>.</p>
         </div>
       </div>
     </div>

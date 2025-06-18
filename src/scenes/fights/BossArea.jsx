@@ -1,11 +1,13 @@
 import { Button } from '../../components/Button'
 import { Character } from '../../components/Character'
+import { HealthBar } from '../../components/HealthBar'
 
 export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, onMap, onBossDeath }) {
 
   if (bossHealth > 0) {
     return <div className="fight-item boss-area d-flex align-items-start justify-content-end">
-      <div className='mx-2'>
+      <div className='fight-boss-stats mx-2'>
+        <HealthBar maxHealth={currentBoss.health} currentHealth={bossHealth}/>
         {bossHealth}
         <p>Armor: {bossArmor}</p>
         <p>Resist: {bossResistance}</p>

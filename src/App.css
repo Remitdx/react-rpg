@@ -31,6 +31,24 @@
   padding: 0.5rem;
 }
 
+.healthbar-bg {
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  background-color: white;
+  border-radius: 0.25rem;
+
+  .healthbar {
+    position: absolute;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .green {background-color: rgb(30, 129, 0);}
+  .yellow {background-color: rgb(199, 182, 0);}
+  .red {background-color: rgb(209, 0, 0);}
+}
+
 .carroussel-wrapper {
   width: 40%;
   margin: 1rem auto;
@@ -59,8 +77,8 @@
   }
 }
 
-.buff {color: rgb(30, 129, 0);}
-.shred {color: rgb(209, 0, 0);}
+.green {color: rgb(30, 129, 0);}
+.red {color: rgb(209, 0, 0);}
 
 .map-grid {
   display: grid;
@@ -109,6 +127,10 @@
 
   .fight-item {
     height: 100%;
+
+    .fight-boss-stats {
+      width: 100%;
+    }
   }
 
   .order-list{ grid-area: 1 / 1 / 2 / 2 ; }
