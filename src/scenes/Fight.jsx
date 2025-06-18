@@ -28,7 +28,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     let newLogs = [...logs]
     const type = attacker.type.includes("magic") ? "magic" : "physical"
     newLogs.unshift(`- ${attacker.identity.toUpperCase() } hits ${target.identity.toUpperCase()} for ${damage} ${type} ${damage < 2 ? "damage" : "damages"} !`)
-    newLogs.length < 13 ? newLogs : newLogs.shift()
+    newLogs.length < 13 ? newLogs : newLogs.pop()
     return newLogs
   }
 
@@ -66,8 +66,9 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     }
   }
 
-  const goatguyAI = (attackLogs, newOrder) => {
+  const goatguyAI = (attackLogs, newOrder, newBossHealth) => {
     const target = aliveTankOrRandomAliveTarget()
+    setBossHealth(newBossHealth)
     if (target) {
       const index = team.findIndex(member => member.identity == target.identity)
       const damage = damageOutput(currentBoss, target)
@@ -79,11 +80,15 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     }
   }
 
-  const princessAI = (attackLogs, newOrder) => {
-    if (bossHealth < 20) {
-      console.log("princess heal herself")
+  const princessAI = (attackLogs, newOrder, newBossHealth) => {
+    if (newBossHealth < 25) {
+      const heal = 20
+      setBossHealth(newBossHealth + heal)
+      let log = [...attackLogs]
+      log.unshift(`- PRINCESS heals herself for ${heal}`)
+      setLogs(log)
     } else {
-      goatguyAI(attackLogs, newOrder)
+      goatguyAI(attackLogs, newOrder, newBossHealth)
     }
   }
 
@@ -107,13 +112,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
     goatguyAI(attackLogs, newOrder)
   }
 
-  const bossTurn = (attackLogs, newOrder) => {
+  const bossTurn = (attackLogs, newOrder, newBossHealth) => {
     switch (currentBoss.identity) {
       case "goatguy":
-        goatguyAI(attackLogs, newOrder)
+        goatguyAI(attackLogs, newOrder, newBossHealth)
         break;
       case "princess":
-        princessAI(attackLogs, newOrder)
+        princessAI(attackLogs, newOrder, newBossHealth)
         break;
       case "sirena":
         sirenaAI(attackLogs, newOrder)
@@ -146,14 +151,15 @@ export function Fight({ currentBoss, team, onBossDeath, onMap }) {
   const attack = (e) => {
     const attacker = (findAttacker(e))
     const damage = damageOutput(attacker, currentBoss)
-    setBossHealth(bossHealth - damage < 0 ? 0 : bossHealth - damage)
+    const newBossHealth = bossHealth - damage < 0 ? 0 : bossHealth - damage
     const attackLogs = handleAttackLogs(attacker, currentBoss, damage, logs)
     setOrder(rotateArray(order))
-    if (order[0] == currentBoss && bossHealth - damage > 1) {
+    if (order[0] == currentBoss && bossHealth - damage > 0) {
       const newOrder = rotateArray(order)
-      bossTurn(attackLogs, newOrder)
+      bossTurn(attackLogs, newOrder, newBossHealth)
     } else {
       setLogs(attackLogs)
+      setBossHealth(newBossHealth)
     }
   }
 
