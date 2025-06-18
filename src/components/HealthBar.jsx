@@ -4,10 +4,12 @@ export function HealthBar({ maxHealth, currentHealth }) {
 
   const healthColor = () => {
     return healthRatio > 75 ? "green" : healthRatio > 30 ? "yellow" : "red"
-
   }
 
-  return <div className="healthbar-bg">
-    <div className={`healthbar ${healthColor()}`} style={{width:`${healthRatio}%`}}></div>
-  </div>
+  return <>
+    <div className="healthbar-bg">
+      <div className={`healthbar ${healthColor()}`} style={{width:`${healthRatio}%`}}></div>
+    </div>
+    <p>Health :{currentHealth}</p>
+  </>
 }

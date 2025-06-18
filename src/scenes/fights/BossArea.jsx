@@ -5,20 +5,26 @@ import { HealthBar } from '../../components/HealthBar'
 export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, onMap, onBossDeath }) {
 
   if (bossHealth > 0) {
-    return <div className="fight-item boss-area d-flex align-items-start justify-content-end">
-      <div className='fight-boss-stats mx-2'>
+    return <div className="fight-item boss-area d-flex align-items-end">
+      <div className='flex-grow-1'>
         <HealthBar maxHealth={currentBoss.health} currentHealth={bossHealth}/>
-        {bossHealth}
-        <p>Armor: {bossArmor}</p>
-        <p>Resist: {bossResistance}</p>
-        <p>Gold: {currentBoss.gold}</p>
-        <Button value="Retreat ..." onClick={onMap} />
+        <div className='fight-boss-stats'>
+          <p>Strength : {currentBoss.strength}</p>
+          <p>Armor: {bossArmor}</p>
+          <p>Resist: {bossResistance}</p>
+          <p>Gold: {currentBoss.gold}</p>
+        </div>
+        <div className="d-flex justify-content-center align-items-center">
+          <Button value="Retreat ..." onClick={onMap} />
+        </div>
       </div>
-      <Character size="avatar-lg" character={currentBoss}/>
+      <div>
+        <Character size="avatar-lg" character={currentBoss}/>
+      </div>
     </div>
   } else {
-    return <div className="fight-item boss-area d-flex align-items-center justify-content-end">
-      <div className="d-flex flex-column align-items-start mx-2 ">
+    return <div className="fight-item boss-area d-flex align-items-end">
+      <div className="flex-grow-1 text-center">
         <p>{currentBoss.identity.toUpperCase()} is dead !</p>
         <Button value="Continue" onClick={onBossDeath} />
       </div>
