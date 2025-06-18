@@ -15,13 +15,13 @@ export function TeamPicker({team, pickCharacter, charactersLeft, onClick}) {
   const picks = (shuffledArray(charactersLeft)).slice(0, 2)
 
   return <div className='team-picker'>
-    <h2>Your Team</h2>
+    <h2 className='text-center'>Your Team</h2>
     <div className="wrapper d-flex justify-content-around">
       {team.length < 3 ? <Character size="avatar" character={team[0]}/> : <DetailedCharacter character={team[0]} />}
       {team.length < 3 ? <Character size="avatar" character={team[1]}/> : <DetailedCharacter character={team[1]} />}
       {team.length < 3 ? <Character size="avatar" character={team[2]}/> : <DetailedCharacter character={team[2]} />}
     </div>
-    {team.length < 3 ? <h2>Pick one</h2> : <h2></h2> }
+    {team.length < 3 ? <h2 className='text-center mt-2'>Pick one</h2> : <h2></h2> }
     <div className="wrapper d-flex justify-content-around">
       { team.length < 3 ?
         picks.map(pick => (
