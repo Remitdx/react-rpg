@@ -45,8 +45,8 @@
     border-radius: 0.25rem;
   }
 
-  .green {background-color: rgb(30, 129, 0);}
-  .yellow {background-color: rgb(199, 182, 0);}
+  .green {background-color: rgb(57, 207, 11);}
+  .yellow {background-color: rgb(254, 214, 14);}
   .red {background-color: rgb(209, 0, 0);}
 }
 
@@ -90,7 +90,7 @@
   }
 }
 
-.green {color: rgb(30, 129, 0);}
+.green {color: rgb(57, 207, 11);}
 .red {color: rgb(209, 0, 0);}
 
 .map-grid {

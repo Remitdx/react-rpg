@@ -139,15 +139,29 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     }
   }
 
+  // these variables mutate during fight
   const [order, setOrder] = useState(firstOrder)
   const [logs, setLogs] = useState([`- Fight against ${currentBoss.identity.toUpperCase()} has started !`])
   const [bossHealth, setBossHealth] = useState(currentBoss.health)
-  const [bossArmor, setBossArmor] = useState(currentBoss.armor)
-  const [bossResistance, setBossResistance] = useState(currentBoss.resistance)
+  const [characterOneHealth, setCharacterOneHealth] = useState(buff[0] ? team[0].health * 2 : team[0].health)
+  const [characterTwoHealth, setCharacterTwoHealth] = useState(buff[0] ? team[1].health * 2 : team[1].health)
+  const [characterThreeHealth, setCharacterThreeHealth] = useState(buff[0] ? team[2].health * 2 : team[2].health)
 
-  const [characterOneHealth, setCharacterOneHealth] = useState(team[0].health)
-  const [characterTwoHealth, setCharacterTwoHealth] = useState(team[1].health)
-  const [characterThreeHealth, setCharacterThreeHealth] = useState(team[2].health)
+  // those don't
+  const bossArmor = buff[4] ? currentBoss.armor / 2 : currentBoss.armor
+  const bossResistance = buff[5] ? currentBoss.resistance / 2 : currentBoss.resistance
+
+  const characterOneStrength = buff[1] ? team[0].strength * 2 : team[0].strength
+  const characterOneArmor = buff[2] ? team[0].armor * 2 : team[0].armor
+  const characterOneResistance = buff[3] ? team[0].resistance * 2 : team[0].resistance
+
+  const characterTwoStrength = buff[1] ? team[1].strength * 2 : team[1].strength
+  const characterTwoArmor = buff[2] ? team[1].armor * 2 : team[1].armor
+  const characterTwoResistance = buff[3] ? team[1].resistance * 2 : team[1].resistance
+
+  const characterThreeStrength = buff[1] ? team[2].strength * 2 : team[2].strength
+  const characterThreeArmor = buff[2] ? team[2].armor * 2 : team[2].armor
+  const characterThreeResistance = buff[3] ? team[2].resistance * 2 : team[2].resistance
 
   const attack = (e) => {
     const attacker = (findAttacker(e))
@@ -181,9 +195,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       onBossDeath={onBossDeath} />
     <TeamArea
       order={order}
+      buff={buff}
       onClick={attack}
       bossHealth={bossHealth}
       characterOneHealth={characterOneHealth}
+      characterOneStrength={characterOneStrength}
+      characterOneArmor={characterOneArmor}
+      characterOneResistance={characterOneResistance}
       characterTwoHealth={characterTwoHealth}
       characterThreeHealth={characterThreeHealth}
       team={team} />

@@ -10,6 +10,6 @@ export function HealthBar({ maxHealth, currentHealth }) {
     <div className="healthbar-bg">
       <div className={`healthbar ${healthColor()}`} style={{width:`${healthRatio}%`}}></div>
     </div>
-    <p>Health :{currentHealth}</p>
+    <p>Health: {currentHealth}</p>
   </>
 }

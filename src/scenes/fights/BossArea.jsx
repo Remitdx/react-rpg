@@ -4,17 +4,21 @@ import { HealthBar } from '../../components/HealthBar'
 
 export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, onMap, onBossDeath }) {
 
+  const isNerfed = (baseValue, currentValue) => {
+    return currentValue < baseValue ? "red" : ""
+  }
+
   if (bossHealth > 0) {
-    return <div className="fight-item boss-area d-flex align-items-end">
+    return <div className="fight-item boss-area d-flex">
       <div className='flex-grow-1'>
-        <HealthBar maxHealth={currentBoss.health} currentHealth={bossHealth}/>
         <div className='fight-boss-stats'>
-          <p>Strength : {currentBoss.strength}</p>
-          <p>Armor: {bossArmor}</p>
-          <p>Resist: {bossResistance}</p>
+          <HealthBar maxHealth={currentBoss.health} currentHealth={bossHealth}/>
+          <p>Strength: {currentBoss.strength}</p>
+          <p>Armor: <span className={isNerfed(currentBoss.armor, bossArmor)}>{bossArmor}</span></p>
+          <p>Resist: <span className={isNerfed(currentBoss.resistance, bossResistance)}>{bossResistance}</span></p>
           <p>Gold: {currentBoss.gold}</p>
         </div>
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center pt-3">
           <Button value="Retreat ..." onClick={onMap} />
         </div>
       </div>
