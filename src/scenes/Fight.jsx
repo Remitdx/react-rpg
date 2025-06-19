@@ -187,13 +187,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       buff={buff}
       buffDatas={buffDatas}
       bossHealth={bossHealth} />
-    <BossArea
-      currentBoss={currentBoss}
-      bossHealth={bossHealth}
-      bossArmor={bossArmor}
-      bossResistance={bossResistance}
-      onMap={onMap}
-      onBossDeath={onBossDeath} />
     <TeamArea
       order={order}
       buff={buff}
@@ -212,5 +205,12 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       characterThreeArmor={characterThreeArmor}
       characterThreeResistance={characterThreeResistance}
       team={team} />
+    <BossArea
+      currentBoss={currentBoss}
+      bossHealth={bossHealth}
+      bossArmor={bossArmor}
+      bossResistance={bossResistance}
+      onMap={onMap}
+      onBossDeath={onBossDeath} />
   </div>
 }

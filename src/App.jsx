@@ -7,6 +7,7 @@ import { Fight } from './scenes/Fight'
 import { Shop } from './scenes/Shop'
 import { Error } from './scenes/Error'
 import { Tips } from './scenes/Tips'
+import { End } from './scenes/End'
 
 
 function App() {
@@ -25,9 +26,9 @@ function App() {
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 55, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 60, strength: 14, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 100, strength: 16, agility: 3, gold: 15 },
-    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 30, strength: 8, agility: 3, gold: 20 },
-    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 30, strength: 8, agility: 4, gold: 30 },
+    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 80, strength: 16, agility: 3, gold: 15 },
+    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 100, strength: 8, agility: 3, gold: 20 },
+    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 120, strength: 8, agility: 4, gold: 30 },
     {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
   ]
 
@@ -72,10 +73,15 @@ function App() {
     setGameState(5)
   }
 
+  const goToEnd = () => {
+    setGameState(6)
+  }
+
   const handleBossDeath = (e) => {
     const bossName = e.target.parentElement.nextSibling.children[0].alt
     const amount = BOSSDATAS.find(boss => boss.identity == bossName).gold
     setGold(gold + amount)
+    console.log(bossName + " defeated")
     switch (bossName) {
       case "goatguy":
         setBoss([2, 0, 1, 1, 1, 1])
@@ -100,7 +106,7 @@ function App() {
         console.log("Something went wrong with boss update")
         break;
     }
-    goToMap()
+    bossName == "medusa" ? goToEnd() : goToMap()
   }
 
   const addCharacterToTeam = (e) => {
@@ -185,6 +191,9 @@ function App() {
         gold={gold}
         onShop={goToShop}
         onMap={goToMap} />
+      break;
+    case 6:
+      scene = <End />
       break;
     default:
       scene = <Error />
