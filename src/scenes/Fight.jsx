@@ -93,24 +93,24 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     }
   }
 
-  const sirenaAI = (attackLogs, newOrder) => {
+  const sirenaAI = (attackLogs, newOrder, newBossHealth) => {
     console.log("sirena fight")
-    goatguyAI(attackLogs, newOrder)
+    goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
-  const kingAI = (attackLogs, newOrder) => {
+  const kingAI = (attackLogs, newOrder, newBossHealth) => {
     console.log("king fight")
-    goatguyAI(attackLogs, newOrder)
+    goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
-  const minotaurAI = (attackLogs, newOrder) => {
+  const minotaurAI = (attackLogs, newOrder, newBossHealth) => {
     console.log("minotaur fight")
-    goatguyAI(attackLogs, newOrder)
+    goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
-  const medusaAI = (attackLogs, newOrder) => {
+  const medusaAI = (attackLogs, newOrder, newBossHealth) => {
     console.log("medusa fight")
-    goatguyAI(attackLogs, newOrder)
+    goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
   const bossTurn = (attackLogs, newOrder, newBossHealth) => {
@@ -185,7 +185,8 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       bossHealth={bossHealth} />
     <RecapBuffs
       buff={buff}
-      buffDatas={buffDatas}/>
+      buffDatas={buffDatas}
+      bossHealth={bossHealth} />
     <BossArea
       currentBoss={currentBoss}
       bossHealth={bossHealth}
@@ -203,7 +204,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       characterOneArmor={characterOneArmor}
       characterOneResistance={characterOneResistance}
       characterTwoHealth={characterTwoHealth}
+      characterTwoStrength={characterTwoStrength}
+      characterTwoArmor={characterTwoArmor}
+      characterTwoResistance={characterTwoResistance}
       characterThreeHealth={characterThreeHealth}
+      characterThreeStrength={characterThreeStrength}
+      characterThreeArmor={characterThreeArmor}
+      characterThreeResistance={characterThreeResistance}
       team={team} />
   </div>
 }

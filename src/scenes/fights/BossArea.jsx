@@ -13,18 +13,17 @@ export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, o
       <div className='flex-grow-1'>
         <div className='fight-boss-stats'>
           <HealthBar maxHealth={currentBoss.health} currentHealth={bossHealth}/>
+          <p>Health: {bossHealth}</p>
           <p>Strength: {currentBoss.strength}</p>
           <p>Armor: <span className={isNerfed(currentBoss.armor, bossArmor)}>{bossArmor}</span></p>
           <p>Resist: <span className={isNerfed(currentBoss.resistance, bossResistance)}>{bossResistance}</span></p>
           <p>Gold: {currentBoss.gold}</p>
         </div>
-        <div className="d-flex justify-content-center align-items-center pt-3">
+        <div className="d-flex justify-content-center align-items-center pt-1 pt-md-3">
           <Button value="Retreat ..." onClick={onMap} />
         </div>
       </div>
-      <div>
-        <Character size="avatar-lg" character={currentBoss}/>
-      </div>
+      <Character size="avatar-lg ps-1" character={currentBoss}/>
     </div>
   } else {
     return <div className="fight-item boss-area d-flex align-items-end">
