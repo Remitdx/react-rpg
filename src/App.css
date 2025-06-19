@@ -68,9 +68,8 @@
 .team-picker{
   width: 100%;
 
-  .picker-character {
+  .picker-character-right {
     cursor: pointer;
-    border: 3px solid black;
     padding: 0.5rem;
     border-radius: 0.5rem 0.5rem 0 0;
 
@@ -79,9 +78,29 @@
     }
   }
 
-  .picker-stats {
+  .picker-character-left {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+
+    &:hover {
+      background-color: rgb(154, 154, 154);
+    }
+  }
+
+  .picker-stats-right {
     background-color: black;
     border-radius: 0 0 0.5rem 0.5rem;
+    border: 2px solid white;
+    border-top: none;
+    padding: 0.5rem;
+  }
+
+  .picker-stats-left {
+    background-color: black;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border: 2px solid white;
+    border-top: none;
     padding: 0.5rem;
   }
 
@@ -207,11 +226,21 @@
 
 @media (min-width: 768px) {
   .team-picker {
-    .picker-character {
+    .picker-character-right {
       border-radius: 0.5rem 0.5rem 0 0.5rem;
     }
-    .picker-stats {
+    .picker-character-left {
+      border-radius: 0.5rem 0.5rem 0.5rem 0;
+    }
+    .picker-stats-right {
+      border-left: none;
       border-radius: 0 0.5rem 0.5rem 0;
+      border-top: 2px solid white;
+    }
+    .picker-stats-left {
+      border-top: 2px solid white;
+      border-right: none;
+      border-radius: 0.5rem 0 0 0.5rem;
     }
   }
 

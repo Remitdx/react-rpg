@@ -1,7 +1,12 @@
 export function Character({ size, character, dead }) {
 
   if (!character) {
-    return <div className="avatar">-</div>
+    return <div className="avatar">
+        <img
+          src={`${import.meta.env.BASE_URL}/images/question.png`}
+          alt="question"
+          className={size} />
+      </div>
   } else if (dead) {
     return <div>
       <img

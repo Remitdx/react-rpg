@@ -25,7 +25,7 @@ export function TeamArea({
         <div className="character-stats">
           <HealthBar maxHealth={buff[0] ? team[0].health * 2 : team[0].health} currentHealth={characterOneHealth} />
         </div> }
-      {characterOneHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[0]} /> : <Character size={order[0] == team[0] ? "avatar" : "avatar-sm"} character={team[0]} />}
+      {characterOneHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[0]} /> : <Character size={order[0] == team[0] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[0]} />}
       {order[0] == team[0] && bossHealth > 0 && characterOneHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
     </div>
     <div key={team[1].identity} className="d-flex flex-column align-items-center">
@@ -40,7 +40,7 @@ export function TeamArea({
         <div className="character-stats">
           <HealthBar maxHealth={buff[0] ? team[1].health * 2 : team[1].health} currentHealth={characterTwoHealth} />
         </div>}
-      {characterTwoHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[1]} /> : <Character size={order[0] == team[1] ? "avatar" : "avatar-sm"} character={team[1]} />}
+      {characterTwoHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[1]} /> : <Character size={order[0] == team[1] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[1]} />}
       {order[0] == team[1] && bossHealth > 0 && characterTwoHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
     </div>
     <div key={team[2].identity} className="d-flex flex-column align-items-center">
@@ -55,7 +55,7 @@ export function TeamArea({
         <div className="character-stats">
           <HealthBar maxHealth={buff[0] ? team[2].health * 2 : team[2].health} currentHealth={characterThreeHealth} />
         </div>}
-      {characterThreeHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[2]} /> : <Character size={order[0] == team[2] ? "avatar" : "avatar-sm"} character={team[2]} />}
+      {characterThreeHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[2]} /> : <Character size={order[0] == team[2] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[2]} />}
       {order[0] == team[2] && bossHealth > 0 && characterThreeHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
     </div>
   </div>

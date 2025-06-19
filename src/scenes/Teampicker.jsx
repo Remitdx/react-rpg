@@ -22,10 +22,11 @@ export function TeamPicker({team, pickCharacter, charactersLeft, onClick}) {
       <Character size="avatar" character={team[2]}/>
     </div>
     {team.length < 3 ? <h2 className='text-center mt-2'>Pick one</h2> : <h2></h2> }
-    <div className="wrapper d-flex justify-content-around">
+    <div className="d-flex justify-content-around">
       { team.length < 3 ?
-        picks.map(pick => (
+        picks.map((pick, i) => (
           <DetailedCharacter
+            side={i == 1 ? "left" : "right "}
             key={pick.identity}
             character={pick}
             pickCharacter={pickCharacter} />
