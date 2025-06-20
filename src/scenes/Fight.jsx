@@ -20,10 +20,10 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   const damageOutput = (attacker, target) => {
     const attackerStrength = buff[1] ? attacker.strength * 2 : attacker.strength
     if (attacker.type.includes("magic")) {
-      const targetResistance = buff[5] ? target.resistance / 2 : target.resistance
+      const targetResistance = buff[5] ? target.resistance / 4 : target.resistance
       return attackerStrength > targetResistance ? attackerStrength - targetResistance : 0
     } else {
-      const targetArmor = buff[4] ? target.armor / 2 : target.armor
+      const targetArmor = buff[4] ? target.armor / 4 : target.armor
       return attackerStrength > targetArmor ? attackerStrength - targetArmor : 0
     }
   }
@@ -94,7 +94,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
 
   const princessAI = (attackLogs, newOrder, newBossHealth) => {
     const oddOrEven = getRandomInteger(2)
-    console.log(oddOrEven)
     if (newBossHealth < 40 && oddOrEven == 0) {
       const heal = 20
       setBossHealth(newBossHealth + heal)
@@ -107,7 +106,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   }
 
   const sirenaAI = (attackLogs, newOrder, newBossHealth) => {
-    console.log("sirena fight")
     goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
@@ -135,16 +133,16 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
         princessAI(attackLogs, newOrder, newBossHealth)
         break;
       case "sirena":
-        sirenaAI(attackLogs, newOrder)
+        sirenaAI(attackLogs, newOrder, newBossHealth)
         break;
       case "king":
-        kingAI(attackLogs, newOrder)
+        kingAI(attackLogs, newOrder, newBossHealth)
         break;
       case "minotaur":
-        minotaurAI(attackLogs, newOrder)
+        minotaurAI(attackLogs, newOrder, newBossHealth)
         break;
       case "medusa":
-        medusaAI(attackLogs, newOrder)
+        medusaAI(attackLogs, newOrder, newBossHealth)
         break;
       default:
         console.log("ERROR: can't find boss brain !")
@@ -161,8 +159,8 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   const [characterThreeHealth, setCharacterThreeHealth] = useState(buff[0] ? team[2].health * 2 : team[2].health)
 
   // those don't
-  const bossArmor = buff[4] ? currentBoss.armor / 2 : currentBoss.armor
-  const bossResistance = buff[5] ? currentBoss.resistance / 2 : currentBoss.resistance
+  const bossArmor = buff[4] ? currentBoss.armor / 4 : currentBoss.armor
+  const bossResistance = buff[5] ? currentBoss.resistance / 4 : currentBoss.resistance
 
   const characterOneStrength = buff[1] ? team[0].strength * 2 : team[0].strength
   const characterOneArmor = buff[2] ? team[0].armor * 2 : team[0].armor

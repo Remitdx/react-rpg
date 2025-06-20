@@ -43,7 +43,7 @@ function App() {
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(5)
+  const [gold, setGold] = useState(10)
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
