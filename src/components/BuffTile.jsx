@@ -1,5 +1,4 @@
 export function BuffTile({ onBuy, item, buff }) {
-
   if (!buff) {
     return <div className="grid-item-pointer d-flex flex-column align-items-center justify-content-center">
       <img

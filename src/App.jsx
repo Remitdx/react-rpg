@@ -9,7 +9,6 @@ import { Error } from './scenes/Error'
 import { Tips } from './scenes/Tips'
 import { End } from './scenes/End'
 
-
 function App() {
 
   const CHARACTERSDATAS = [
@@ -24,11 +23,11 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 55, strength: 16, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 60, strength: 14, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 80, strength: 16, agility: 3, gold: 15 },
-    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 100, strength: 8, agility: 3, gold: 20 },
-    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 120, strength: 8, agility: 4, gold: 30 },
+    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
+    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 80, strength: 24, agility: 3, gold: 10 },
+    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 100, strength: 16, agility: 3, gold: 15 },
+    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 125, strength: 8, agility: 3, gold: 20 },
+    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 150, strength: 8, agility: 4, gold: 30 },
     {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
   ]
 
@@ -44,7 +43,7 @@ function App() {
   const [gameState, setGameState] = useState(0)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(50)
+  const [gold, setGold] = useState(5)
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])

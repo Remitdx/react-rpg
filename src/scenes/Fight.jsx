@@ -18,10 +18,23 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   }
 
   const damageOutput = (attacker, target) => {
+    const attackerStrength = buff[1] ? attacker.strength * 2 : attacker.strength
     if (attacker.type.includes("magic")) {
-      return attacker.strength > target.resistance ? attacker.strength - target.resistance : 0
+      const targetResistance = buff[5] ? target.resistance / 2 : target.resistance
+      return attackerStrength > targetResistance ? attackerStrength - targetResistance : 0
     } else {
-      return attacker.strength > target.armor ? attacker.strength - target.armor : 0
+      const targetArmor = buff[4] ? target.armor / 2 : target.armor
+      return attackerStrength > targetArmor ? attackerStrength - targetArmor : 0
+    }
+  }
+
+  const bossDamageOutput = (boss, target) => {
+    if (boss.type.includes("magic")) {
+      const targetResistance = buff[3] ? target.resistance * 2 : target.resistance
+      return boss.strength > targetResistance ? boss.strength - targetResistance : 0
+    } else {
+      const targetArmor = buff[2] ? target.armor * 2 : target.armor
+      return boss.strength > targetArmor ? boss.strength - targetArmor : 0
     }
   }
 
@@ -72,17 +85,17 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     setBossHealth(newBossHealth)
     if (target) {
       const index = team.findIndex(member => member.identity == target.identity)
-      const damage = damageOutput(currentBoss, target)
+      const damage = bossDamageOutput(currentBoss, target)
       const targetKilled = handleTeamHealthLoss(index, damage)
       targetKilled ? setOrder(newOrder.filter(member => member.identity !== target.identity)) : setOrder(newOrder)
       setLogs(handleAttackLogs(currentBoss, target, damage, attackLogs))
-    } else {
-      console.log("All heroes are dead !")
     }
   }
 
   const princessAI = (attackLogs, newOrder, newBossHealth) => {
-    if (newBossHealth < 25) {
+    const oddOrEven = getRandomInteger(2)
+    console.log(oddOrEven)
+    if (newBossHealth < 40 && oddOrEven == 0) {
       const heal = 20
       setBossHealth(newBossHealth + heal)
       let log = [...attackLogs]

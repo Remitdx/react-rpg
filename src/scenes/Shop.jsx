@@ -21,7 +21,7 @@ export function Shop({ team, onMap, onTips, onBuy, onSell, buff, buffDatas, gold
       )}
       <div className="sell d-flex align-items-center justify-content-center">
         <Button value="Sell all" onClick={onSell} />
-        </div>
+      </div>
     </div>
   </>
 
