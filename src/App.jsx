@@ -24,11 +24,11 @@ function App() {
 
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 80, strength: 24, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 100, strength: 16, agility: 3, gold: 15 },
-    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 125, strength: 8, agility: 3, gold: 20 },
-    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 150, strength: 8, agility: 4, gold: 30 },
-    {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 200, strength: 8, agility: 4, gold: 0 }
+    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 24, agility: 3, gold: 10 },
+    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 125, strength: 16, agility: 3, gold: 15 },
+    {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 175, strength: 8, agility: 3, gold: 20 },
+    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 250, strength: 8, agility: 4, gold: 30 },
+    {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 400, strength: 8, agility: 4, gold: 0 }
   ]
 
   const BUFFDATAS = [
