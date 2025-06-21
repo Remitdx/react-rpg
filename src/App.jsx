@@ -41,7 +41,7 @@ function App() {
   ]
 
   const [gameState, setGameState] = useState(0)
-  const [muted, setMuted] = useState(true)
+  const [muted, setMuted] = useState(false) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(10)
@@ -59,7 +59,7 @@ function App() {
   const fightAudio = useMemo(() => {
     const audio = new Audio(`${import.meta.env.BASE_URL}/audios/fight.mp3`)
     audio.loop = true
-    audio.volume = 0.2
+    audio.volume = 0.1
     return audio
   }, [])
 
@@ -71,7 +71,11 @@ function App() {
       mainAudio.pause()
       fightAudio.pause()
     }
-  }, [gameState, mainAudio, muted])
+  }, [fightAudio, gameState, mainAudio, muted])
+
+  const toggleMute = () => {
+    setMuted(!muted)
+  }
 
   let scene = undefined
 
@@ -184,6 +188,8 @@ function App() {
         bossDatas={BOSSDATAS}
         team={team}
         gold={gold}
+        onMute={toggleMute}
+        muted={muted}
         onFight={goToFight}
         onTips={goToTips}
         onShop={goToShop} />
@@ -203,6 +209,8 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
+        onMute={toggleMute}
+        muted={muted}
         onBuy={buyItem}
         onSell={sellAllItems}
         onTips={goToTips}
@@ -212,6 +220,8 @@ function App() {
       scene = <Tips
         team={team}
         gold={gold}
+        onMute={toggleMute}
+        muted={muted}
         onShop={goToShop}
         onMap={goToMap} />
       break;

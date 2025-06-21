@@ -1,17 +1,19 @@
 import { Header } from "../components/Header";
 
-export function Tips({team, gold, onShop, onMap}) {
+export function Tips({team, gold, onShop, onMap, muted, onMute}) {
   return <div>
     <Header
       team={team}
       gold={gold}
+      onMute={onMute}
+      muted={muted}
       onButtonOne={onMap}
       buttonOne="Map"
       onButtonTwo={onShop}
       buttonTwo="Shop" />
     <div className="tips wrapper main-window my-3">
-      <div>
-        <h1 className="text-center">Tips</h1>
+      <div className="text-center p-1 p-md-3">
+        <h1>Tips</h1>
         <p>Your goal is to defeat 6 bosses. Earn coins by beating them.</p>
         <p>Buy special power from the shop to improve your chances.</p>
       </div>
