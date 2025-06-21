@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { Welcome } from './scenes/Welcome'
 import { TeamPicker } from './scenes/Teampicker'
@@ -25,7 +25,7 @@ function App() {
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 24, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 6, resistance: 16, health: 125, strength: 16, agility: 3, gold: 15 },
+    {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 16, agility: 3, gold: 15 },
     {type: ["attack"], identity: "king", armor: 0, resistance: 0, health: 175, strength: 8, agility: 3, gold: 20 },
     {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 250, strength: 8, agility: 4, gold: 30 },
     {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 400, strength: 8, agility: 4, gold: 0 }
@@ -41,6 +41,7 @@ function App() {
   ]
 
   const [gameState, setGameState] = useState(0)
+  const [muted, setMuted] = useState(true)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(10)
@@ -48,6 +49,29 @@ function App() {
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
 
+  const mainAudio = useMemo(() => {
+    const audio = new Audio(`${import.meta.env.BASE_URL}/audios/adventure.mp3`)
+    audio.loop = true
+    audio.volume = 0.2
+    return audio
+  }, [])
+
+  const fightAudio = useMemo(() => {
+    const audio = new Audio(`${import.meta.env.BASE_URL}/audios/fight.mp3`)
+    audio.loop = true
+    audio.volume = 0.2
+    return audio
+  }, [])
+
+  useEffect(() => {
+    if (!muted) {
+      [2, 4, 5 , 6].includes(gameState) ? mainAudio.play() : gameState == 3 ? fightAudio.play() : null
+    }
+    return () => {
+      mainAudio.pause()
+      fightAudio.pause()
+    }
+  }, [gameState, mainAudio, muted])
 
   let scene = undefined
 
@@ -197,7 +221,8 @@ function App() {
     default:
       scene = <Error />
       break;
-  }
+
+    }
 
   return <div className="container">
     {scene}
