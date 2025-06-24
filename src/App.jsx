@@ -137,12 +137,12 @@ function App() {
   }
 
   const addCharacterToTeam = (e) => {
-    const pick = CHARACTERSDATAS.find(character => character.identity == e.target.alt)
+    const pick = CHARACTERSDATAS.find(character => character.identity == e.currentTarget.children[0].alt)
     let newTeam = team
     let newCharactersLeft = charactersLeft
     newTeam.push(pick)
     setTeam(newTeam)
-    setCharactersLeft(newCharactersLeft.filter(character => character.identity !== e.target.alt))
+    setCharactersLeft(newCharactersLeft.filter(character => character.identity !== e.currentTarget.children[0].alt))
   }
 
   const buyItem = (e) => {
