@@ -1,6 +1,6 @@
 export function ResourcesPanel({ gold }) {
-  return <div className="d-flex align-items-center justify-content-center">
-      <div>{gold}</div>
-      <img className="avatar-sm mx-3" src={`${import.meta.env.BASE_URL}/images/gold.png`} alt="gold" />
+  return <div className="gold">
+      <div className="gold-amount">{gold}</div>
+      <img className="avatar-sm" src={`${import.meta.env.BASE_URL}/images/gold.png`} alt="gold" />
     </div>
 }
