@@ -41,7 +41,7 @@ function App() {
   ]
 
   const [gameState, setGameState] = useState(0)
-  const [muted, setMuted] = useState(false) // initialize to browser preferences instead of just false ?
+  const [muted, setMuted] = useState(true) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(100)

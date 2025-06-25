@@ -43,6 +43,7 @@
 
     .gold-amount {
       color: black;
+      text-shadow: 1px 1px 2px white;
       width: 100%;
       height: 100%;
       font-size: larger;

@@ -13,11 +13,11 @@ export function TeamArea({
   }
 
   return <div className='fight-item team-area d-flex flex-column justify-content-end'>
-    {characterOneHealth == 0 && characterTwoHealth == 0 && characterThreeHealth == 0 ?
+    {characterOneHealth == 0 && characterTwoHealth == 0 && characterThreeHealth == 0 &&
     <div className="text-center mb-5">
       <p>All your heroes are K.O.</p>
       <p>You may become stronger by visiting the shop.</p>
-    </div> : null
+    </div>
     }
     <div className="d-flex justify-content-around align-items-end">
       <div key={team[0].identity} className="d-flex flex-column align-items-center">
@@ -33,7 +33,10 @@ export function TeamArea({
             <HealthBar maxHealth={buff[0] ? team[0].health * 2 : team[0].health} currentHealth={characterOneHealth} />
           </div> }
         {characterOneHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[0]} /> : <Character size={order[0] == team[0] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[0]} />}
-        {order[0] == team[0] && bossHealth > 0 && characterOneHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
+        <div className="d-flex">
+          {order[0] == team[0] && bossHealth > 0 && characterOneHealth > 0 && <Button value="Attack" onClick={onClick}/> }
+          {order[0] == team[0] && bossHealth > 0 && characterOneHealth > 0 && team[0].type.includes("heal") && <Button value="Heal" onClick={onClick}/> }
+        </div>
       </div>
       <div key={team[1].identity} className="d-flex flex-column align-items-center">
         {order[0] == team[1] && bossHealth > 0 && characterTwoHealth > 0 ?
@@ -48,8 +51,10 @@ export function TeamArea({
             <HealthBar maxHealth={buff[0] ? team[1].health * 2 : team[1].health} currentHealth={characterTwoHealth} />
           </div>}
         {characterTwoHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[1]} /> : <Character size={order[0] == team[1] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[1]} />}
-        {order[0] == team[1] && bossHealth > 0 && characterTwoHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
-      </div>
+        <div className="d-flex">
+          {order[0] == team[1] && bossHealth > 0 && characterTwoHealth > 0 && <Button value="Attack" onClick={onClick} />}
+          {order[0] == team[1] && bossHealth > 0 && characterTwoHealth > 0 && team[1].type.includes("heal") && <Button value="Heal" onClick={onClick} />}
+        </div>      </div>
       <div key={team[2].identity} className="d-flex flex-column align-items-center">
         {order[0] == team[2] && bossHealth > 0 && characterThreeHealth > 0 ?
           <div className='character-stats mb-1'>
@@ -63,8 +68,10 @@ export function TeamArea({
             <HealthBar maxHealth={buff[0] ? team[2].health * 2 : team[2].health} currentHealth={characterThreeHealth} />
           </div>}
         {characterThreeHealth == 0 ? <Character size="avatar-sm" dead={true} character={team[2]} /> : <Character size={order[0] == team[2] && bossHealth > 0 ? "avatar" : "avatar-sm"} character={team[2]} />}
-        {order[0] == team[2] && bossHealth > 0 && characterThreeHealth > 0 ? <Button value="Attack !" onClick={onClick}/> : null }
-      </div>
+        <div className="d-flex">
+          {order[0] == team[2] && bossHealth > 0 && characterThreeHealth > 0 && <Button value="Attack" onClick={onClick} />}
+          {order[0] == team[2] && bossHealth > 0 && characterThreeHealth > 0 && team[2].type.includes("heal") && <Button value="Heal" onClick={onClick} />}
+        </div>      </div>
     </div>
   </div>
 }

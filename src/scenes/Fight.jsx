@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Order } from './fights/Order'
 import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
@@ -14,7 +14,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   }
 
   const findAttacker = (e) => {
-    return team.filter(character => character.identity == e.target.previousSibling.children[0].alt)[0]
+    return team.filter(character => character.identity == e.target.parentElement.previousSibling.children[0].alt)[0]
   }
 
   const damageOutput = (attacker, target) => {
@@ -80,75 +80,79 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     }
   }
 
-  const goatguyAI = (attackLogs, newOrder, newBossHealth) => {
+  const goatguyAI = () => {
     const target = aliveTankOrRandomAliveTarget()
-    setBossHealth(newBossHealth)
+    let targetKilled = false
     if (target) {
       const index = team.findIndex(member => member.identity == target.identity)
       const damage = bossDamageOutput(currentBoss, target)
-      const targetKilled = handleTeamHealthLoss(index, damage)
-      targetKilled ? setOrder(newOrder.filter(member => member.identity !== target.identity)) : setOrder(newOrder)
-      setLogs(handleAttackLogs(currentBoss, target, damage, attackLogs))
+      targetKilled = handleTeamHealthLoss(index, damage)
+      setLogs(handleAttackLogs(currentBoss, target, damage, logs))
     }
+    const newOrder = targetKilled ? order.filter(member => member.identity !== target.identity) : order
+    setOrder(rotateArray(newOrder))
   }
 
-  const princessAI = (attackLogs, newOrder, newBossHealth) => {
+  const princessAI = () => {
     const oddOrEven = getRandomInteger(2)
-    if (newBossHealth < 40 && oddOrEven == 0) {
-      const heal = 20
-      setBossHealth(newBossHealth + heal)
-      let log = [...attackLogs]
+    if (bossHealth < 40 && oddOrEven == 0) {
+      const heal = currentBoss.strength
+      setBossHealth(bossHealth + heal)
+      let log = [...logs]
       log.unshift(`- PRINCESS heals herself for ${heal}`)
       setLogs(log)
+      setOrder(rotateArray(order))
     } else {
-      goatguyAI(attackLogs, newOrder, newBossHealth)
+      goatguyAI()
     }
   }
 
-  const sirenaAI = (attackLogs, newOrder, newBossHealth) => {
-    goatguyAI(attackLogs, newOrder, newBossHealth)
+  const sirenaAI = () => {
+    goatguyAI()
   }
 
-  const kingAI = (attackLogs, newOrder, newBossHealth) => {
+  const kingAI = () => {
     console.log("king fight")
-    goatguyAI(attackLogs, newOrder, newBossHealth)
+    goatguyAI()
   }
 
-  const minotaurAI = (attackLogs, newOrder, newBossHealth) => {
+  const minotaurAI = () => {
     console.log("minotaur fight")
-    goatguyAI(attackLogs, newOrder, newBossHealth)
+    goatguyAI()
   }
 
-  const medusaAI = (attackLogs, newOrder, newBossHealth) => {
+  const medusaAI = () => {
     console.log("medusa fight")
     goatguyAI(attackLogs, newOrder, newBossHealth)
   }
 
-  const bossTurn = (attackLogs, newOrder, newBossHealth) => {
+  const bossTurn = () => {
     switch (currentBoss.identity) {
       case "goatguy":
-        goatguyAI(attackLogs, newOrder, newBossHealth)
+        goatguyAI()
         break;
       case "princess":
-        princessAI(attackLogs, newOrder, newBossHealth)
+        princessAI()
         break;
       case "sirena":
-        sirenaAI(attackLogs, newOrder, newBossHealth)
+        sirenaAI()
         break;
       case "king":
-        kingAI(attackLogs, newOrder, newBossHealth)
+        kingAI()
         break;
       case "minotaur":
-        minotaurAI(attackLogs, newOrder, newBossHealth)
+        minotaurAI()
         break;
       case "medusa":
-        medusaAI(attackLogs, newOrder, newBossHealth)
+        medusaAI()
         break;
       default:
         console.log("ERROR: can't find boss brain !")
         break;
     }
   }
+
+
 
   // these variables mutate during fight
   const [order, setOrder] = useState(firstOrder)
@@ -174,19 +178,56 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   const characterThreeArmor = buff[2] ? team[2].armor * 2 : team[2].armor
   const characterThreeResistance = buff[3] ? team[2].resistance * 2 : team[2].resistance
 
+  const action = (e) => {
+    e.target.innerHTML == "Heal" ? heal(e) : attack(e)
+  }
+
+  const heal = (e) => {
+    const attacker = (findAttacker(e))
+    const teamMissingHealth = [
+      characterOneHealth > 0 ? team[0].health - characterOneHealth : -Infinity,
+      characterTwoHealth > 0 ? team[1].health - characterTwoHealth : -Infinity,
+      characterThreeHealth > 0 ? team[2].health - characterThreeHealth : -Infinity,
+    ]
+    const validTargets = teamMissingHealth.filter(member => member !== 0 && member !== -Infinity).length
+    let healLog =''
+    const healAmount = buff[1] ? attacker.strength * 2 : attacker.strength
+
+    if (validTargets == 0) {
+      healLog = `- ${attacker.identity.toUpperCase()} try to heal but can't find any valid target`
+    } else if (teamMissingHealth[0] > teamMissingHealth[1]) {
+      if (teamMissingHealth[2] > teamMissingHealth[0]) {
+        setCharacterThreeHealth(characterThreeHealth + healAmount < team[2].health ? characterThreeHealth + healAmount : team[2].health)
+        healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
+      } else {
+        setCharacterOneHealth(characterOneHealth + healAmount < team[0].health ? characterOneHealth + healAmount : team[0].health)
+        healLog = `- ${attacker.identity.toUpperCase()} heals ${team[0].identity.toUpperCase()} for ${healAmount} points.`
+      }
+    } else {
+      if (teamMissingHealth[2] > teamMissingHealth[1]) {
+        setCharacterThreeHealth(characterThreeHealth + healAmount < team[2].health ? characterThreeHealth + healAmount : team[2].health)
+        healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
+      } else {
+        setCharacterTwoHealth(characterTwoHealth + healAmount < team[1].health ? characterTwoHealth + healAmount : team[1].health)
+        healLog = `- ${attacker.identity.toUpperCase()} heals ${team[1].identity.toUpperCase()} for ${healAmount} points.`
+      }
+    }
+    const newLogs = [...logs]
+    newLogs.unshift(healLog)
+    setLogs(newLogs)
+    setOrder(rotateArray(order))
+  }
+
   const attack = (e) => {
     const attacker = (findAttacker(e))
     const damage = damageOutput(attacker, currentBoss)
-    const newBossHealth = bossHealth - damage < 0 ? 0 : bossHealth - damage
-    const attackLogs = handleAttackLogs(attacker, currentBoss, damage, logs)
+    setBossHealth(bossHealth - damage < 0 ? 0 : bossHealth - damage)
+    setLogs(handleAttackLogs(attacker, currentBoss, damage, logs))
     setOrder(rotateArray(order))
-    if (order[0] == currentBoss && bossHealth - damage > 0) {
-      const newOrder = rotateArray(order)
-      bossTurn(attackLogs, newOrder, newBossHealth)
-    } else {
-      setLogs(attackLogs)
-      setBossHealth(newBossHealth)
-    }
+  }
+
+  if (order[0] == currentBoss && bossHealth > 0 && (characterOneHealth + characterTwoHealth + characterThreeHealth > 0) ) {
+    bossTurn()
   }
 
   return <div className="wrapper fight-bg fight-grid main-window">
@@ -201,7 +242,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     <TeamArea
       order={order}
       buff={buff}
-      onClick={attack}
+      onClick={action}
       bossHealth={bossHealth}
       characterOneHealth={characterOneHealth}
       characterOneStrength={characterOneStrength}
