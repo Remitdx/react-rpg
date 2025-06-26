@@ -24,11 +24,11 @@ function App() {
 
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
-    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 24, agility: 6, gold: 10 },
-    {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 24, agility: 4, gold: 15 },
-    {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 22, agility: 10, gold: 20 },
-    {type: ["attack"], identity: "minotaur", armor: 0, resistance: 0, health: 250, strength: 8, agility: 4, gold: 30 },
-    {type: ["magic"], identity: "medusa", armor: 0, resistance: 0, health: 400, strength: 8, agility: 4, gold: 0 }
+    {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 22, agility: 6, gold: 15 },
+    {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 24, agility: 4, gold: 20 },
+    {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 22, agility: 8, gold: 25 },
+    {type: ["attack"], identity: "minotaur", armor: 20, resistance: 4, health: 200, strength: 26, agility: 5, gold: 30 },
+    {type: ["magic"], identity: "medusa", armor: 12, resistance: 12, health: 250, strength: 20, agility: 7, gold: 0 }
   ]
 
   const BUFFDATAS = [
@@ -44,8 +44,8 @@ function App() {
   const [muted, setMuted] = useState(true) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(100)
-  const [boss, setBoss] = useState([2, 2, 2, 0, 1, 1]) // 0: fightable, 1: locked, 2: defeated
+  const [gold, setGold] = useState(10)
+  const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
 

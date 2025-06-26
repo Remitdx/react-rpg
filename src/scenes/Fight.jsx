@@ -158,13 +158,39 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   }
 
   const minotaurAI = () => {
-    console.log("minotaur fight")
-    goatguyAI()
+    const attackType = getRandomInteger(3)
+    if (attackType == 2) {
+      const target = aliveTankOrRandomAliveTarget()
+      let targetKilled = false
+      if (target) {
+        const index = team.findIndex(member => member.identity == target.identity)
+        const damage = bossDamageOutput(currentBoss, target) * 2
+        targetKilled = handleTeamHealthLoss(index, damage)
+        const newLogs = [...logs]
+        newLogs.unshift(`- ${currentBoss.identity.toUpperCase()} smash hard on ${target.identity.toUpperCase()}: ${damage} physical ${damage > 1 ? "damages" : "damage"} !`)
+        setLogs(newLogs)
+      }
+      const newOrder = targetKilled ? order.filter(member => member.identity !== target.identity) : order
+      setOrder(rotateArray(newOrder))
+    } else if (attackType == 1) {
+      sirenaAI()
+    } else {
+      goatguyAI()
+    }
   }
 
   const medusaAI = () => {
-    console.log("medusa fight")
-    goatguyAI()
+    const targets = filterDeadCharacters()
+    const target = targets[getRandomInteger(targets.length)]
+    let targetKilled = false
+    if (target) {
+      const index = team.findIndex(member => member.identity == target.identity)
+      const damage = bossDamageOutput(currentBoss, target)
+      targetKilled = handleTeamHealthLoss(index, damage)
+      setLogs(handleAttackLogs(currentBoss, target, damage, logs))
+    }
+    const newOrder = targetKilled ? order.filter(member => member.identity !== target.identity) : order
+    setOrder(rotateArray(newOrder))
   }
 
   const bossTurn = () => {
