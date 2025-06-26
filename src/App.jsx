@@ -5,9 +5,9 @@ import { TeamPicker } from './scenes/Teampicker'
 import { Map } from './scenes/Map'
 import { Fight } from './scenes/Fight'
 import { Shop } from './scenes/Shop'
-import { Error } from './scenes/Error'
+import { Rip } from './scenes/Rip'
 import { Tips } from './scenes/Tips'
-import { End } from './scenes/End'
+import { Credits } from './scenes/Credits'
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 66, agility: 3, gold: 10 },
+    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 22, agility: 6, gold: 15 },
     {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 24, agility: 4, gold: 20 },
     {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 22, agility: 8, gold: 25 },
@@ -32,12 +32,12 @@ function App() {
   ]
 
   const BUFFDATAS = [
-    {title: "Health buff", cost: 15, img: "health-buff"},
-    {title: "Attack buff", cost: 20, img: "attack-buff"},
-    {title: "Armor buff", cost: 15, img: "armor-buff"},
-    {title: "Resistance buff", cost: 15, img: "resistance-buff"},
-    {title: "Armor shred", cost: 25, img: "armor-shred"},
-    {title: "Resistance shred", cost: 25, img: "resistance-shred"}
+    {title: "Health buff", cost: 15, img: "health-buff", description: "double health points"},
+    {title: "Attack buff", cost: 20, img: "attack-buff", description: "double damages and heals"},
+    {title: "Armor buff", cost: 15, img: "armor-buff", description: "double armor to physical damages"},
+    {title: "Resistance buff", cost: 15, img: "resistance-buff", description: "double resistance to magic damages"},
+    {title: "Armor shred", cost: 25, img: "armor-shred", description: "divide boss armor by 4"},
+    { title: "Resistance shred", cost: 25, img: "resistance-shred", description: "divide boss resistance by 4"}
   ]
 
   const [gameState, setGameState] = useState(0)
@@ -45,7 +45,7 @@ function App() {
   const [muted, setMuted] = useState(true) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
-  const [gold, setGold] = useState(10)
+  const [gold, setGold] = useState(100)
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
@@ -106,13 +106,24 @@ function App() {
     setGameState(5)
   }
 
-  const goToEnd = () => {
+  const gotToCredits = () => {
     setGameState(6)
   }
 
   const goToMenu = () => {
-    setHardcore(false)
     setGameState(0)
+    setHardcore(false)
+    setMuted(true)
+    setCharactersLeft(CHARACTERSDATAS)
+    setTeam([])
+    setGold(10)
+    setBoss([0, 1, 1, 1, 1, 1])
+    setBuff([false, false, false, false, false, false])
+    setCurrentBoss(BOSSDATAS[0])
+  }
+
+  const goToRip = () => {
+    setGameState(7)
   }
 
   const handleBossDeath = (e) => {
@@ -144,7 +155,7 @@ function App() {
         console.log("Something went wrong with boss update")
         break;
     }
-    bossName == "medusa" ? goToEnd() : goToMap()
+    bossName == "medusa" ? gotToCredits() : goToMap()
   }
 
   const addCharacterToTeam = (e) => {
@@ -157,27 +168,28 @@ function App() {
   }
 
   const buyItem = (e) => {
-    const item = BUFFDATAS.find(buff => buff.title == e.target.alt)
-    if (gold - item.cost < 0 ) {
-      console.log('cannot afford this')
-    } else  {
-      setGold(gold - item.cost)
+    const item = BUFFDATAS.find(buff => buff.title == e.currentTarget.children[0].alt)
+    if (e.currentTarget.children[2].innerText == 'Refund') {
+      setGold(gold + item.cost)
+      //play sound
       const index = BUFFDATAS.findIndex(buff => buff == item)
       let newBuff = [...buff]
-      newBuff[index] = true
+      newBuff[index] = false
       setBuff(newBuff)
-    }
-  }
-
-  const sellAllItems = () => {
-    let refund = 0
-    buff.forEach((buff, i) => {
-      if (buff) {
-        refund = refund + BUFFDATAS[i].cost
+    } else {
+      if (gold - item.cost < 0 ) {
+        console.log('cannot afford this')
+        //play sound
+      } else  {
+        setGold(gold - item.cost)
+        //play sound
+        const index = BUFFDATAS.findIndex(buff => buff == item)
+        let newBuff = [...buff]
+        newBuff[index] = true
+        setBuff(newBuff)
       }
-    })
-    setGold(gold + refund)
-    setBuff([false, false, false, false, false, false])
+    }
+
   }
 
   switch (gameState) {
@@ -186,7 +198,7 @@ function App() {
         heroes={CHARACTERSDATAS.slice(3,6)}
         onStart={startGame}
         onHardcore={startHardcore}
-        onCredits={goToEnd}/>
+        onCredits={gotToCredits}/>
       break;
     case 1:
       scene = <TeamPicker
@@ -215,6 +227,7 @@ function App() {
         buffDatas={BUFFDATAS}
         buff={buff}
         hardcore={hardcore}
+        onRip={goToRip}
         onMap={goToMap} />
       break;
     case 4:
@@ -226,7 +239,6 @@ function App() {
         onMute={toggleMute}
         muted={muted}
         onBuy={buyItem}
-        onSell={sellAllItems}
         onTips={goToTips}
         onMap={goToMap} />
       break;
@@ -240,11 +252,13 @@ function App() {
         onMap={goToMap} />
       break;
     case 6:
-      scene = <End
-      onMenu={goToMenu} />
+      scene = <Credits
+        onMenu={goToMenu} />
       break;
-    default:
-      scene = <Error />
+    case 7:
+      scene = <Rip
+        onMenu={goToMenu}
+        team={team} />
       break;
 
     }

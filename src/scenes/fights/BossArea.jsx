@@ -2,7 +2,8 @@ import { Button } from '../../components/Button'
 import { Character } from '../../components/Character'
 import { HealthBar } from '../../components/HealthBar'
 
-export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, onMap, onBossDeath }) {
+export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, onMap, onBossDeath,
+  hardcore, onRip, characterOneHealth, characterTwoHealth, characterThreeHealth }) {
 
   const isNerfed = (baseValue, currentValue) => {
     return currentValue < baseValue ? "red" : ""
@@ -25,7 +26,10 @@ export function BossArea({ currentBoss, bossHealth, bossArmor, bossResistance, o
           </div>
         </div>
         <div className="d-flex justify-content-center align-items-center pt-1 pt-md-3">
-          <Button value="Retreat ..." onClick={onMap} />
+          {characterOneHealth == 0 && characterTwoHealth == 0 && characterThreeHealth == 0 && hardcore ?
+            <Button value="Rest In Peace" onClick={onRip} /> :
+            <Button value="Retreat" onClick={onMap} />
+          }
         </div>
       </div>
       <Character size="avatar-lg ps-1" character={currentBoss}/>

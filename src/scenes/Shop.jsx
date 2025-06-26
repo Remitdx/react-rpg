@@ -2,7 +2,7 @@ import { Header } from '../components/Header'
 import { Button } from '../components/Button'
 import { BuffTile } from '../components/BuffTile'
 
-export function Shop({ team, onMap, onTips, onBuy, onSell, buff, buffDatas, gold, muted, onMute }) {
+export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold, muted, onMute }) {
   return <>
     <Header
       team={team}
@@ -21,9 +21,6 @@ export function Shop({ team, onMap, onTips, onBuy, onSell, buff, buffDatas, gold
           key={i}
           onBuy={onBuy} />
       )}
-      <div className="sell d-flex align-items-center justify-content-center">
-        <Button value="Sell all" onClick={onSell} />
-      </div>
     </div>
   </>
 

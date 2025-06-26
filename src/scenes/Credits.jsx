@@ -1,6 +1,6 @@
 import { Button } from '../components/Button';
 
-export function End({onMenu}) {
+export function Credits({onMenu}) {
   return <div className="wrapper">
       <h1>Hi ! I'm Rémi and looking for a job.</h1>
       <h2>French full-stack engineer Ruby on rails / React</h2>
