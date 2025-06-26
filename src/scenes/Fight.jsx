@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Order } from './fights/Order'
 import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
@@ -55,11 +55,16 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
     return Math.floor(Math.random() * max)
   }
 
-  const aliveTankOrRandomAliveTarget = () => {
+  const filterDeadCharacters = () => {
     let aliveTeam = [...team]
     characterTwoHealth == 0 ? aliveTeam.splice(1,1) : aliveTeam
     characterOneHealth == 0 ? aliveTeam.shift() : aliveTeam
     characterThreeHealth == 0 ? aliveTeam.pop() : aliveTeam
+    return aliveTeam
+  }
+
+  const aliveTankOrRandomAliveTarget = () => {
+    const aliveTeam = filterDeadCharacters()
     return aliveTeam.find(member => member.type.includes("tank"))  || aliveTeam[getRandomInteger(aliveTeam.length)]
   }
 
@@ -108,12 +113,48 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
   }
 
   const sirenaAI = () => {
-    goatguyAI()
+    const target = aliveTankOrRandomAliveTarget()
+    let targetKilled = false
+    if (target) {
+      const index = team.findIndex(member => member.identity == target.identity)
+      const damage = bossDamageOutput(currentBoss, target)
+      targetKilled = handleTeamHealthLoss(index, damage)
+      const newLogs = handleAttackLogs(currentBoss, target, damage, logs)
+      const newBossHealth = bossHealth + 0.5 * damage > currentBoss.health ? currentBoss.health : bossHealth + 0.5 * damage
+      setBossHealth(newBossHealth)
+      newLogs.unshift(`- ${currentBoss.identity.toUpperCase()} heals for 50% of the damage dealed (${damage/2})`)
+      setLogs(newLogs)
+    }
+    const newOrder = targetKilled ? order.filter(member => member.identity !== target.identity) : order
+    setOrder(rotateArray(newOrder))
   }
 
   const kingAI = () => {
-    console.log("king fight")
-    goatguyAI()
+    const attackType = getRandomInteger(3)
+    const targets = filterDeadCharacters()
+    if (attackType == 2 && targets.length == 3) {
+      let newLog = `- ${currentBoss.identity.toUpperCase()} slams all characters with rage (`
+      let damages = []
+      targets.forEach( (target, i) => {
+        const damage = bossDamageOutput(currentBoss, target) / 2
+        damages.push(damage)
+        newLog = newLog + `${target.identity.toUpperCase()} - ${damage}`
+        newLog = i < 2 ? newLog + ", " : newLog + ")"
+      })
+      const newLogs = [...logs]
+      newLogs.unshift(newLog)
+      setLogs(newLogs)
+      let newOrder = [...order]
+      newOrder = characterOneHealth - damages[0] <= 0 ? newOrder.filter(member => member.identity !== team[0].identity) : newOrder
+      newOrder = characterTwoHealth - damages[1] <= 0 ? newOrder.filter(member => member.identity !== team[1].identity) : newOrder
+      newOrder = characterThreeHealth - damages[2] <= 0 ? newOrder.filter(member => member.identity !== team[2].identity) : newOrder
+      setCharacterOneHealth(characterOneHealth - damages[0] < 0 ? 0 : characterOneHealth - damages[0])
+      setCharacterTwoHealth(characterTwoHealth - damages[1] < 0 ? 0 : characterTwoHealth - damages[1])
+      setCharacterThreeHealth(characterThreeHealth - damages[2] < 0 ? 0 : characterThreeHealth - damages[2])
+      setOrder(rotateArray(newOrder))
+    } else {
+      goatguyAI()
+    }
   }
 
   const minotaurAI = () => {
@@ -123,7 +164,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
 
   const medusaAI = () => {
     console.log("medusa fight")
-    goatguyAI(attackLogs, newOrder, newBossHealth)
+    goatguyAI()
   }
 
   const bossTurn = () => {
@@ -151,8 +192,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
         break;
     }
   }
-
-
 
   // these variables mutate during fight
   const [order, setOrder] = useState(firstOrder)
@@ -184,10 +223,13 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
 
   const heal = (e) => {
     const attacker = (findAttacker(e))
+    const characterOneMaxHealth = buff[0] ? team[0].health * 2 : team[0].health
+    const characterTwoMaxHealth = buff[0] ? team[1].health * 2 : team[1].health
+    const characterThreeMaxHealth = buff[0] ? team[2].health * 2 : team[2].health
     const teamMissingHealth = [
-      characterOneHealth > 0 ? team[0].health - characterOneHealth : -Infinity,
-      characterTwoHealth > 0 ? team[1].health - characterTwoHealth : -Infinity,
-      characterThreeHealth > 0 ? team[2].health - characterThreeHealth : -Infinity,
+      characterOneHealth > 0 ? characterOneMaxHealth - characterOneHealth : -Infinity,
+      characterTwoHealth > 0 ? characterTwoMaxHealth - characterTwoHealth : -Infinity,
+      characterThreeHealth > 0 ? characterThreeMaxHealth - characterThreeHealth : -Infinity,
     ]
     const validTargets = teamMissingHealth.filter(member => member !== 0 && member !== -Infinity).length
     let healLog =''
@@ -197,18 +239,18 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       healLog = `- ${attacker.identity.toUpperCase()} try to heal but can't find any valid target`
     } else if (teamMissingHealth[0] > teamMissingHealth[1]) {
       if (teamMissingHealth[2] > teamMissingHealth[0]) {
-        setCharacterThreeHealth(characterThreeHealth + healAmount < team[2].health ? characterThreeHealth + healAmount : team[2].health)
+        setCharacterThreeHealth(characterThreeHealth + healAmount < characterThreeMaxHealth ? characterThreeHealth + healAmount : characterThreeMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
       } else {
-        setCharacterOneHealth(characterOneHealth + healAmount < team[0].health ? characterOneHealth + healAmount : team[0].health)
+        setCharacterOneHealth(characterOneHealth + healAmount < characterOneMaxHealth ? characterOneHealth + healAmount : characterOneMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[0].identity.toUpperCase()} for ${healAmount} points.`
       }
     } else {
       if (teamMissingHealth[2] > teamMissingHealth[1]) {
-        setCharacterThreeHealth(characterThreeHealth + healAmount < team[2].health ? characterThreeHealth + healAmount : team[2].health)
+        setCharacterThreeHealth(characterThreeHealth + healAmount < characterThreeMaxHealth ? characterThreeHealth + healAmount : characterThreeMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
       } else {
-        setCharacterTwoHealth(characterTwoHealth + healAmount < team[1].health ? characterTwoHealth + healAmount : team[1].health)
+        setCharacterTwoHealth(characterTwoHealth + healAmount < characterTwoMaxHealth ? characterTwoHealth + healAmount : characterTwoMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[1].identity.toUpperCase()} for ${healAmount} points.`
       }
     }
