@@ -1,7 +1,7 @@
 import { Button } from '../components/Button'
 import { Character } from '../components/Character'
 
-export function Welcome({heroes, onClick}) {
+export function Welcome({heroes, onStart, onHardcore, onCredits}) {
   return <div className="text-center">
     <h1>React RPG fighter</h1>
     <p>Pick champions, fight, free your land.</p>
@@ -12,6 +12,8 @@ export function Welcome({heroes, onClick}) {
         <Character size="avatar-sm" character={heroes[2]}/>
       </div>
     </div>
-    <Button onClick={onClick} value={"Start game"} />
+    <Button onClick={onStart} value={"Start game"} />
+    <Button onClick={onHardcore} value={"Hardcore mode"} />
+    <Button onClick={onCredits} value={"Credits"} />
   </div>
 }

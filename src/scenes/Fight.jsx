@@ -5,7 +5,7 @@ import { BossArea } from './fights/BossArea'
 import { TeamArea } from './fights/TeamArea'
 import { RecapBuffs } from './fights/RecapBuffs'
 
-export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }) {
+export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, hardcore }) {
 
   const firstOrder = () => {
     let array = [...team]
@@ -309,6 +309,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas }
       bossHealth={bossHealth} />
     <TeamArea
       order={order}
+      hardcore={hardcore}
       buff={buff}
       onClick={action}
       bossHealth={bossHealth}

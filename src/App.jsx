@@ -23,7 +23,7 @@ function App() {
   ]
 
   const BOSSDATAS = [
-    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
+    {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 66, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 22, agility: 6, gold: 15 },
     {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 24, agility: 4, gold: 20 },
     {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 22, agility: 8, gold: 25 },
@@ -41,6 +41,7 @@ function App() {
   ]
 
   const [gameState, setGameState] = useState(0)
+  const [hardcore, setHardcore] = useState(false)
   const [muted, setMuted] = useState(true) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
@@ -83,6 +84,11 @@ function App() {
     setGameState(1)
   }
 
+  const startHardcore = () => {
+    setHardcore(true)
+    startGame()
+  }
+
   const goToMap = () => {
     setGameState(2)
   }
@@ -102,6 +108,11 @@ function App() {
 
   const goToEnd = () => {
     setGameState(6)
+  }
+
+  const goToMenu = () => {
+    setHardcore(false)
+    setGameState(0)
   }
 
   const handleBossDeath = (e) => {
@@ -173,7 +184,9 @@ function App() {
     case 0:
       scene = <Welcome
         heroes={CHARACTERSDATAS.slice(3,6)}
-        onClick={startGame}/>
+        onStart={startGame}
+        onHardcore={startHardcore}
+        onCredits={goToEnd}/>
       break;
     case 1:
       scene = <TeamPicker
@@ -201,6 +214,7 @@ function App() {
         team={team}
         buffDatas={BUFFDATAS}
         buff={buff}
+        hardcore={hardcore}
         onMap={goToMap} />
       break;
     case 4:
@@ -226,7 +240,8 @@ function App() {
         onMap={goToMap} />
       break;
     case 6:
-      scene = <End />
+      scene = <End
+      onMenu={goToMenu} />
       break;
     default:
       scene = <Error />

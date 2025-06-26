@@ -3,7 +3,7 @@ import { Character } from '../../components/Character';
 import { HealthBar } from '../../components/HealthBar';
 
 export function TeamArea({
-  team, order, onClick, bossHealth, buff,
+  team, order, onClick, bossHealth, buff, hardcore,
   characterOneHealth, characterOneStrength, characterOneArmor, characterOneResistance,
   characterTwoHealth, characterTwoStrength, characterTwoArmor, characterTwoResistance,
   characterThreeHealth, characterThreeStrength, characterThreeArmor, characterThreeResistance}) {
@@ -11,6 +11,8 @@ export function TeamArea({
   const isBuffed = (baseValue, currentValue) => {
     return currentValue > baseValue ? "green" : ""
   }
+
+  characterOneHealth == 0 && characterTwoHealth == 0 && characterThreeHealth == 0 && hardcore && location.reload()
 
   return <div className='fight-item team-area d-flex flex-column justify-content-end'>
     {characterOneHealth == 0 && characterTwoHealth == 0 && characterThreeHealth == 0 &&
