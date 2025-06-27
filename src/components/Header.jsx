@@ -2,11 +2,14 @@ import { Character } from '../components/Character'
 import { Button } from '../components/Button'
 import { ResourcesPanel } from '../components/ResourcesPanel'
 import { useWindowSize } from '@uidotdev/usehooks'
+import { useContext } from 'react'
+import { MutedContext } from '../hooks/useMuted'
 
-export function Header({team, gold, onButtonOne, onButtonTwo, buttonOne, buttonTwo, muted, onMute}) {
+export function Header({team, gold, onButtonOne, onButtonTwo, buttonOne, buttonTwo }) {
+
+  const { muted, toggleMuted } = useContext(MutedContext)
 
   const musicButtonValue = <img
-    onClick={onMute}
     src={muted ? `${import.meta.env.BASE_URL}/images/sound-off.png` : `${import.meta.env.BASE_URL}/images/sound-on.png`}
     alt={muted ? "Sound off" : "Sound on"} />
 
@@ -27,7 +30,7 @@ export function Header({team, gold, onButtonOne, onButtonTwo, buttonOne, buttonT
     <div>
       <Button value={buttonOne} onClick={onButtonOne} />
       <Button value={buttonTwo} onClick={onButtonTwo} />
-      <Button value={musicButtonValue} onClick={onMute} />
+      <Button value={musicButtonValue} onClick={toggleMuted} />
     </div>
   </div>
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { Welcome } from './scenes/Welcome'
 import { TeamPicker } from './scenes/Teampicker'
@@ -8,6 +8,7 @@ import { Shop } from './scenes/Shop'
 import { Rip } from './scenes/Rip'
 import { Tips } from './scenes/Tips'
 import { Credits } from './scenes/Credits'
+import { MutedContext } from './hooks/useMuted'
 
 function App() {
 
@@ -42,7 +43,6 @@ function App() {
 
   const [gameState, setGameState] = useState(0)
   const [hardcore, setHardcore] = useState(false)
-  const [muted, setMuted] = useState(true) // initialize to browser preferences instead of just false ?
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
   const [gold, setGold] = useState(100)
@@ -64,6 +64,8 @@ function App() {
     return audio
   }, [])
 
+  const {muted} = useContext(MutedContext)
+
   useEffect(() => {
     if (!muted) {
       [2, 4, 5 , 6].includes(gameState) ? mainAudio.play() : gameState == 3 ? fightAudio.play() : null
@@ -73,10 +75,6 @@ function App() {
       fightAudio.pause()
     }
   }, [fightAudio, gameState, mainAudio, muted])
-
-  const toggleMute = () => {
-    setMuted(!muted)
-  }
 
   let scene = undefined
 
@@ -113,7 +111,6 @@ function App() {
   const goToMenu = () => {
     setGameState(0)
     setHardcore(false)
-    setMuted(true)
     setCharactersLeft(CHARACTERSDATAS)
     setTeam([])
     setGold(10)
@@ -130,7 +127,6 @@ function App() {
     const bossName = e.target.parentElement.nextSibling.children[0].alt
     const amount = BOSSDATAS.find(boss => boss.identity == bossName).gold
     setGold(gold + amount)
-    console.log(bossName + " defeated")
     switch (bossName) {
       case "goatguy":
         setBoss([2, 0, 1, 1, 1, 1])
@@ -149,10 +145,6 @@ function App() {
         break;
       case "medusa":
         setBoss([2, 2, 2, 2, 2, 2])
-        break;
-
-      default:
-        console.log("Something went wrong with boss update")
         break;
     }
     bossName == "medusa" ? gotToCredits() : goToMap()
@@ -213,8 +205,6 @@ function App() {
         bossDatas={BOSSDATAS}
         team={team}
         gold={gold}
-        onMute={toggleMute}
-        muted={muted}
         onFight={goToFight}
         onTips={goToTips}
         onShop={goToShop} />
@@ -236,8 +226,6 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
-        onMute={toggleMute}
-        muted={muted}
         onBuy={buyItem}
         onTips={goToTips}
         onMap={goToMap} />
@@ -246,8 +234,6 @@ function App() {
       scene = <Tips
         team={team}
         gold={gold}
-        onMute={toggleMute}
-        muted={muted}
         onShop={goToShop}
         onMap={goToMap} />
       break;

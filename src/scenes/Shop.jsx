@@ -2,13 +2,11 @@ import { Header } from '../components/Header'
 import { Button } from '../components/Button'
 import { BuffTile } from '../components/BuffTile'
 
-export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold, muted, onMute }) {
+export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold }) {
   return <>
     <Header
       team={team}
       gold={gold}
-      onMute={onMute}
-      muted={muted}
       onButtonOne={onMap}
       buttonOne="Map"
       onButtonTwo={onTips}

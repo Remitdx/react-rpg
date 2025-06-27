@@ -1,13 +1,11 @@
 import { BossTile } from '../components/BossTile'
 import { Header } from '../components/Header'
 
-export function Map({ team, gold, onShop, onTips, boss, bossDatas, onFight, muted, onMute }) {
+export function Map({ team, gold, onShop, onTips, boss, bossDatas, onFight }) {
   return <div>
     <Header
       team={team}
       gold={gold}
-      onMute={onMute}
-      muted={muted}
       onButtonOne={onShop}
       buttonOne="Shop"
       onButtonTwo={onTips}

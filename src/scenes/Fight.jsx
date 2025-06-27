@@ -79,9 +79,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
       case 2:
         setCharacterThreeHealth(characterThreeHealth - damage < 0 ? 0 : characterThreeHealth - damage)
         return characterThreeHealth > 0 && characterThreeHealth - damage < 1
-      default:
-        console.log("ERROR: something wrong with damage from the boss")
-        break;
     }
   }
 
@@ -212,9 +209,6 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
         break;
       case "medusa":
         medusaAI()
-        break;
-      default:
-        console.log("ERROR: can't find boss brain !")
         break;
     }
   }

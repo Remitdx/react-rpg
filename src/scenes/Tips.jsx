@@ -1,12 +1,10 @@
 import { Header } from "../components/Header";
 
-export function Tips({team, gold, onShop, onMap, muted, onMute}) {
+export function Tips({team, gold, onShop, onMap}) {
   return <div>
     <Header
       team={team}
       gold={gold}
-      onMute={onMute}
-      muted={muted}
       onButtonOne={onMap}
       buttonOne="Map"
       onButtonTwo={onShop}
@@ -43,7 +41,7 @@ export function Tips({team, gold, onShop, onMap, muted, onMute}) {
           <p><strong>Armor</strong> : reduce incoming physical damages</p>
           <p><strong>Resistance</strong> : reduce incoming magic damages</p>
           <p><strong>Strengh</strong> : Damages dealed before reduction by armor or resistance</p>
-          <p><strong>Agility</strong> : Determine the attack order and frequency</p>
+          <p><strong>Agility</strong> : Determine the attack order</p>
           <p>The color indicates a <strong className="green">buff</strong> or a <strong className="red">shred</strong>.</p>
         </div>
       </div>
