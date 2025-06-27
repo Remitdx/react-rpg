@@ -42,6 +42,7 @@ function App() {
   ]
 
   const [gameState, setGameState] = useState(0)
+  const [showAlert, setShowAlert] = useState(false);
   const [hardcore, setHardcore] = useState(false)
   const [charactersLeft, setCharactersLeft] = useState(CHARACTERSDATAS)
   const [team, setTeam] = useState([])
@@ -170,7 +171,7 @@ function App() {
       setBuff(newBuff)
     } else {
       if (gold - item.cost < 0 ) {
-        console.log('cannot afford this')
+        handleAlert()
         //play sound
       } else  {
         setGold(gold - item.cost)
@@ -183,6 +184,11 @@ function App() {
     }
 
   }
+
+  const handleAlert = () => {
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 2000);
+  };
 
   switch (gameState) {
     case 0:
@@ -226,6 +232,7 @@ function App() {
         buffDatas={BUFFDATAS}
         team={team}
         gold={gold}
+        showAlert={showAlert}
         onBuy={buyItem}
         onTips={goToTips}
         onMap={goToMap} />

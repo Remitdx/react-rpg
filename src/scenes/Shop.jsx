@@ -1,8 +1,8 @@
 import { Header } from '../components/Header'
-import { Button } from '../components/Button'
 import { BuffTile } from '../components/BuffTile'
+import { Alert } from '../components/Alert'
 
-export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold }) {
+export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold, showAlert }) {
   return <>
     <Header
       team={team}
@@ -12,6 +12,7 @@ export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold }) {
       onButtonTwo={onTips}
       buttonTwo="Tips" />
     <div className="wrapper shop-grid main-window shop-bg my-3">
+      <Alert showAlert={showAlert} />
       {buffDatas.map((item, i) =>
         <BuffTile
           buff={buff[i]}
