@@ -33,12 +33,12 @@ function App() {
   ]
 
   const BUFFDATAS = [
-    {title: "Health buff", cost: 15, img: "health-buff", description: "double health points"},
-    {title: "Attack buff", cost: 20, img: "attack-buff", description: "double damages and heals"},
-    {title: "Armor buff", cost: 15, img: "armor-buff", description: "double armor to physical damages"},
-    {title: "Resistance buff", cost: 15, img: "resistance-buff", description: "double resistance to magic damages"},
-    {title: "Armor shred", cost: 25, img: "armor-shred", description: "divide boss armor by 4"},
-    { title: "Resistance shred", cost: 25, img: "resistance-shred", description: "divide boss resistance by 4"}
+    {title: "Health buff", cost: 15, img: "health-buff", description: "Health points x2."},
+    {title: "Attack buff", cost: 20, img: "attack-buff", description: "Damages and heals x2."},
+    {title: "Armor buff", cost: 15, img: "armor-buff", description: "Armor x2."},
+    {title: "Resistance buff", cost: 15, img: "resistance-buff", description: "Resistance x2."},
+    {title: "Armor shred", cost: 25, img: "armor-shred", description: "Boss armor / 4."},
+    { title: "Resistance shred", cost: 25, img: "resistance-shred", description: "Boss resistance / 4."}
   ]
 
   const [gameState, setGameState] = useState(0)
@@ -182,7 +182,6 @@ function App() {
         setBuff(newBuff)
       }
     }
-
   }
 
   const handleAlert = () => {
@@ -231,8 +230,8 @@ function App() {
         buff={buff}
         buffDatas={BUFFDATAS}
         team={team}
-        gold={gold}
         showAlert={showAlert}
+        gold={gold}
         onBuy={buyItem}
         onTips={goToTips}
         onMap={goToMap} />
