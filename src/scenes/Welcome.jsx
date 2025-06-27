@@ -12,8 +12,10 @@ export function Welcome({heroes, onStart, onHardcore, onCredits}) {
         <Character size="avatar-sm" character={heroes[2]}/>
       </div>
     </div>
-    <Button onClick={onStart} value={"Start game"} />
-    <Button onClick={onHardcore} value={"Hardcore mode"} />
-    <Button onClick={onCredits} value={"Credits"} />
+    <div className="d-flex flex-column flex-md-row justify-content-center">
+      <Button onClick={onStart} value={"Start game"} />
+      <Button onClick={onHardcore} value={"Hardcore mode"} theme="btn-warning"/>
+      <Button onClick={onCredits} value={"Credits"} theme="btn-secondary"/>
+    </div>
   </div>
 }
