@@ -12,7 +12,7 @@ export function Shop({ team, onMap, onTips, onBuy, buff, buffDatas, gold, showAl
       onButtonTwo={onTips}
       buttonTwo="Tips" />
     <div className="wrapper shop-grid main-window shop-bg my-3">
-      <Alert showAlert={showAlert} />
+      <Alert showAlert={showAlert} type="alert-warning" text="Sorry, you can't afford this !"/>
       {buffDatas.map((item, i) =>
         <BuffTile
           buff={buff[i]}

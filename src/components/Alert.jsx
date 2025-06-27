@@ -1,8 +1,8 @@
-export function Alert({showAlert}) {
+export function Alert({showAlert, text, type}) {
   return <>
     {showAlert &&
-      <div className="position-absolute alert alert-warning mt-3" role="alert">
-        <p>Sorry, you can't afford this !</p>
+      <div className={`position-absolute alert ${type} mt-3`} role="alert">
+        <p>{text}</p>
       </div>}
   </>
 }
