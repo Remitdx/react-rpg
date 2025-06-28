@@ -5,7 +5,8 @@ export function Credits({onMenu}) {
       <h1 className='text-center mt-3'>Hi, I'm Rémi.</h1>
       <div className="p-3">
         <h2>French full-stack engineer Ruby on rails / React</h2>
-        <p>I am currently looking for a job. This is my React demo. Have fun with it and share it around !</p>
+        <p>I am currently looking for a job. This is my self-coded React demo, no AI involved or hurt in it.</p>
+        <p>Fully designed by myself. Have fun with it and share it around !</p>
         <p>You can find me there :</p>
         <div className="d-flex flex-column flex-md-row justify-content-center mb-3">
           <a className='m-1 btn btn-dark' href="https://github.com/Remitdx" alt="Github" target="_blank">Github</a>

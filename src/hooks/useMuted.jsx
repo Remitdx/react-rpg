@@ -6,7 +6,7 @@ export const MutedContext = createContext({
 })
 
 export function MutedContextProvider ({children}) {
-  const [muted, setMuted] = useState(true)
+  const [muted, setMuted] = useState(false)
   const toggleMuted = () => {
     setMuted(!muted)
   }

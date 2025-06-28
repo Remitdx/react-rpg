@@ -13,7 +13,7 @@ import { MutedContext } from './hooks/useMuted'
 function App() {
 
   const CHARACTERSDATAS = [
-    {type: ["tank", "attack"], identity: "barbare", armor: 6, resistance: 2, health: 16, strength: 8, agility: 2},
+    {type: ["tank", "attack"], identity: "barbare", armor: 6, resistance: 3, health: 16, strength: 8, agility: 2},
     {type: ["attack", "heal"], identity: "elf", armor: 6, resistance: 3, health: 8, strength: 9, agility: 8},
     {type: ["magic"], identity: "harpie", armor: 6, resistance: 6, health: 7, strength: 11, agility: 7},
     {type: ["tank", "magic"], identity: "werewolf", armor: 4, resistance: 8, health: 14, strength: 6, agility: 3},
@@ -26,10 +26,10 @@ function App() {
   const BOSSDATAS = [
     {type: ["attack"], identity: "goatguy", armor: 2, resistance: 2, health: 50, strength: 16, agility: 3, gold: 10 },
     {type: ["magic"], identity: "princess", armor: 4, resistance: 4, health: 90, strength: 22, agility: 6, gold: 15 },
-    {type: ["magic"], identity: "sirena", armor: 4, resistance: 20, health: 125, strength: 24, agility: 4, gold: 20 },
-    {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 22, agility: 8, gold: 25 },
+    {type: ["magic"], identity: "sirena", armor: 4, resistance: 8, health: 125, strength: 24, agility: 4, gold: 20 },
+    {type: ["attack"], identity: "king", armor: 12, resistance: 8, health: 175, strength: 21, agility: 8, gold: 25 },
     {type: ["attack"], identity: "minotaur", armor: 20, resistance: 4, health: 200, strength: 26, agility: 5, gold: 30 },
-    {type: ["magic"], identity: "medusa", armor: 12, resistance: 12, health: 250, strength: 20, agility: 7, gold: 0 }
+    {type: ["magic"], identity: "medusa", armor: 20, resistance: 20, health: 250, strength: 20, agility: 7, gold: 0 }
   ]
 
   const BUFFDATAS = [
@@ -50,6 +50,10 @@ function App() {
   const [boss, setBoss] = useState([0, 1, 1, 1, 1, 1]) // 0: fightable, 1: locked, 2: defeated
   const [buff, setBuff] = useState([false, false, false, false, false, false])
   const [currentBoss, setCurrentBoss] = useState(BOSSDATAS[0])
+
+  const buy = new Audio(`${import.meta.env.BASE_URL}/audios/buy.mp3`)
+  const refund = new Audio(`${import.meta.env.BASE_URL}/audios/refund.mp3`)
+  const buzz = new Audio(`${import.meta.env.BASE_URL}/audios/buzz.mp3`)
 
   const mainAudio = useMemo(() => {
     const audio = new Audio(`${import.meta.env.BASE_URL}/audios/adventure.mp3`)
@@ -164,7 +168,7 @@ function App() {
     const item = BUFFDATAS.find(buff => buff.title == e.currentTarget.children[0].alt)
     if (e.currentTarget.children[2].innerText == 'Refund') {
       setGold(gold + item.cost)
-      //play sound
+      !muted && refund.play()
       const index = BUFFDATAS.findIndex(buff => buff == item)
       let newBuff = [...buff]
       newBuff[index] = false
@@ -172,10 +176,10 @@ function App() {
     } else {
       if (gold - item.cost < 0 ) {
         handleAlert()
-        //play sound
+        !muted && buzz.play()
       } else  {
         setGold(gold - item.cost)
-        //play sound
+        !muted && buy.play()
         const index = BUFFDATAS.findIndex(buff => buff == item)
         let newBuff = [...buff]
         newBuff[index] = true

@@ -1,11 +1,21 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Order } from './fights/Order'
 import { FightLogs } from './fights/FightLogs'
 import { BossArea } from './fights/BossArea'
 import { TeamArea } from './fights/TeamArea'
 import { RecapBuffs } from './fights/RecapBuffs'
+import { MutedContext } from '../hooks/useMuted'
 
 export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, hardcore, onRip }) {
+
+  const {muted} = useContext(MutedContext)
+
+  const magic = new Audio(`${import.meta.env.BASE_URL}/audios/magic.mp3`)
+  const magic2 = new Audio(`${import.meta.env.BASE_URL}/audios/magic2.mp3`)
+  const punch = new Audio(`${import.meta.env.BASE_URL}/audios/punch.mp3`)
+  const sword = new Audio(`${import.meta.env.BASE_URL}/audios/sword.mp3`)
+  const blade = new Audio(`${import.meta.env.BASE_URL}/audios/blade.mp3`)
+  const heal = new Audio(`${import.meta.env.BASE_URL}/audios/heal.mp3`)
 
   const firstOrder = () => {
     let array = [...team]
@@ -20,9 +30,12 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
   const damageOutput = (attacker, target) => {
     const attackerStrength = buff[1] ? attacker.strength * 2 : attacker.strength
     if (attacker.type.includes("magic")) {
+      getRandomInteger(2) == 0 ? !muted && magic.play() : !muted && magic2.play()
       const targetResistance = buff[5] ? target.resistance / 4 : target.resistance
       return attackerStrength > targetResistance ? attackerStrength - targetResistance : 0
     } else {
+      const sound = getRandomInteger(3)
+      sound == 0 ? !muted && sword.play() : sound == 1 ? !muted && blade.play() : !muted && punch.play()
       const targetArmor = buff[4] ? target.armor / 4 : target.armor
       return attackerStrength > targetArmor ? attackerStrength - targetArmor : 0
     }
@@ -238,10 +251,10 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
   const characterThreeResistance = buff[3] ? team[2].resistance * 2 : team[2].resistance
 
   const action = (e) => {
-    e.target.innerHTML == "Heal" ? heal(e) : attack(e)
+    e.target.innerHTML == "Heal" ? heals(e) : attacks(e)
   }
 
-  const heal = (e) => {
+  const heals = (e) => {
     const attacker = (findAttacker(e))
     const characterOneMaxHealth = buff[0] ? team[0].health * 2 : team[0].health
     const characterTwoMaxHealth = buff[0] ? team[1].health * 2 : team[1].health
@@ -258,6 +271,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
     if (validTargets == 0) {
       healLog = `- ${attacker.identity.toUpperCase()} try to heal but can't find any valid target`
     } else if (teamMissingHealth[0] > teamMissingHealth[1]) {
+      heal.play()
       if (teamMissingHealth[2] > teamMissingHealth[0]) {
         setCharacterThreeHealth(characterThreeHealth + healAmount < characterThreeMaxHealth ? characterThreeHealth + healAmount : characterThreeMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
@@ -266,6 +280,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[0].identity.toUpperCase()} for ${healAmount} points.`
       }
     } else {
+      heal.play()
       if (teamMissingHealth[2] > teamMissingHealth[1]) {
         setCharacterThreeHealth(characterThreeHealth + healAmount < characterThreeMaxHealth ? characterThreeHealth + healAmount : characterThreeMaxHealth)
         healLog = `- ${attacker.identity.toUpperCase()} heals ${team[2].identity.toUpperCase()} for ${healAmount} points.`
@@ -280,7 +295,7 @@ export function Fight({ currentBoss, team, onBossDeath, onMap, buff, buffDatas, 
     setOrder(rotateArray(order))
   }
 
-  const attack = (e) => {
+  const attacks = (e) => {
     const attacker = (findAttacker(e))
     const damage = damageOutput(attacker, currentBoss)
     setBossHealth(bossHealth - damage < 0 ? 0 : bossHealth - damage)
